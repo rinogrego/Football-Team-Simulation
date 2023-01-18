@@ -57,17 +57,12 @@ Repository containing transformed data ready to be used for modeling or analysis
 
 ## Potential Data Problem
 
-### Feature Inconsistencies
-
-### Change in HTML structure of the website
-
-### Clubs using new player that hasn't been recorded before the match started
-
-### Potential scaling problems (data size per match, speed of read/write new data, etc.)
-
-### Data Usage Permission
-
-### New League, Season, etc.
+1. Feature Inconsistencies
+2. Change in HTML structure of the website
+3. Clubs using new player that hasn't been recorded before the match started
+4. Potential scaling problems (data size per match, speed of read/write new data, etc.)
+5. Data Usage Permission
+6. New League, Season, etc.
 
 
 ## Things to Track
