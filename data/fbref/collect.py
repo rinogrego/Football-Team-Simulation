@@ -49,7 +49,7 @@ from utils import get_html_document, scrape_team, scrape_league, \
 from dictionaries import LEAGUE_CODE, TEAM_CODE, TEAM_DISPLAY
 
 
-SAVE_DIR = "./raw/Premier League/Matches"
+SAVE_DIR = "./raw/Premier League/2022-2023_Matches"
 
 
 def scrape_new_fixtures(league_fixtures_url: str) -> pd.DataFrame:
@@ -263,10 +263,6 @@ def collect():
     # if table_1.equals(table_2):
         # new table and old table is not the same
         # which means new result (probably) exists
-        """
-            PR: BIKIN IF-ELSE INI BEKERJA
-            IDE: SCRAPE_NEW_FIXTURES GANTI JADI PROCESS_LEAGUE_FIXTURES_TABLE
-        """
         cond = table_1["Match Report Link"] != table_2["Match Report Link"]
         df_new_finished_matches = table_1.loc[cond, :]
         
