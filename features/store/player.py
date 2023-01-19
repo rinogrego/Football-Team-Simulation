@@ -1,11 +1,11 @@
 fbref = [
     # index
     'Player',
-    # post-match information/stats
+    # post-match player information/stats
     "Pos",
     "Age",
     "Min",
-    # pre-match information/stats
+    # pre-match player information/stats
     'standard - Nation',
     'standard - Pos',
     'standard - Age',
