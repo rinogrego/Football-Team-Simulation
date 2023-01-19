@@ -44,6 +44,8 @@ import bs4
 import re
 import argparse
 import json
+import os
+import time
 from utils import get_html_document, scrape_team, scrape_league, \
             clean_team_stats_table, create_player_columns
 from dictionaries import LEAGUE_CODE, TEAM_CODE, TEAM_DISPLAY
@@ -155,8 +157,15 @@ def get_pre_match_info(df_next_matches: pd.DataFrame, save_dir=SAVE_DIR):
         home = TEAM_DISPLAY[row["Home"]]
         away = TEAM_DISPLAY[row["Away"]]
         date = row["Date"]
+        filename = f"{SAVE_DIR}/{date}_{home}-vs-{away}.csv"
+        
+        # check if the .csv is already exists then don't scrap
+        if os.path.exists(filename) == True:
+            continue
 
         df_home, home_players = create_player_columns(TEAM_CODE[home], home)
+        # sleep for 3 seconds to delay scraping just not too spam the requests to fbref
+        time.sleep(3)
         df_away, away_players = create_player_columns(TEAM_CODE[away], away)
 
         # to prevent concat giving 2 rows instead of 1
@@ -169,10 +178,8 @@ def get_pre_match_info(df_next_matches: pd.DataFrame, save_dir=SAVE_DIR):
             [home_players, away_players], 
             axis=1,
         )
-        print("DataFrame Shape:", df_.shape)
-        df_.to_csv(f"{SAVE_DIR}/{date}_{home}-vs-{away}.csv")
-
-        print(f"Saved to: {SAVE_DIR}/{date}_{home}-vs-{away}.csv")
+        df_.to_csv(filename)
+        print(f"DataFrame with shape: {df_.shape}; Saved to: {filename}")
 
 
 def get_post_match_data_as_dict(
@@ -263,9 +270,11 @@ def collect():
     # if table_1.equals(table_2):
         # new table and old table is not the same
         # which means new result (probably) exists
+        print("New match result exists.")
         cond = table_1["Match Report Link"] != table_2["Match Report Link"]
         df_new_finished_matches = table_1.loc[cond, :]
         
+        print("Processing post-match information of previous matches.")
         for idx, row in df_new_finished_matches.iterrows():
             match_report_link = row["Match Report Link"]
             home = TEAM_DISPLAY[row["Home"]]
@@ -279,6 +288,7 @@ def collect():
             print(f"Saved to: {SAVE_DIR}/{date}_{home}-vs-{away}.json")
         
         # get next matches
+        print("Scraping future matches' information.")
         table_2 = table_1.copy()
         df_next_matches = table_2[table_2["Match Report"] != "Match Report"]
         df_next_matches = get_next_matches(df_next_matches)
@@ -286,6 +296,7 @@ def collect():
         
         # save newly scrapped table as new reference for the future
         table_2.to_csv(TABLE_2_FILENAME)
+        print("Fixture reference updated.")
         status = "Collection Success."
     else:
         status = "No New Data Found."
