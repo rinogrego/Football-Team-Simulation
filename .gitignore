@@ -141,6 +141,5 @@ GitHub.sublime-settings
 *.json
 *.docx
 docs
-features
 models
 references
