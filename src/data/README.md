@@ -1,4 +1,4 @@
-## Database Structure
+<!-- ## Database Structure
 
 |- Raw
 |   |
@@ -25,7 +25,7 @@
         |   |
         |   |- 2023-01-31_Team_D-vs-Team_C.csv
         |
-        |- Previous_Fixtures.csv
+        |- Previous_Fixtures.csv -->
 
 
 ## Data Flow
