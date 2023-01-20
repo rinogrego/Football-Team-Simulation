@@ -71,3 +71,15 @@ Repository containing transformed data ready to be used for modeling or analysis
 2. HTML source format
 3. Potential labels
 4. Where the data come from
+
+
+## Things to Do
+
+1. Try Top 5 Leagues
+2. Try Championship
+3. Get All TEAM data & display name for Top 5 leagues and below their respective leagues
+4. Complete the Comments in the scripts
+
+---- After Baseline Result is Created ----
+
+5. Anticipate Different Season
