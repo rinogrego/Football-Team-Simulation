@@ -48,10 +48,12 @@ import os
 import time
 from utils import get_html_document, scrape_team, scrape_league, \
             clean_team_stats_table, create_player_columns
-from dictionaries import LEAGUE_CODE, TEAM_CODE, TEAM_DISPLAY
+from dictionaries.fbref import LEAGUE_CODE, TEAM_CODE, TEAM_DISPLAY
 
 
-SAVE_DIR = "./raw/Premier League/2022-2023_Matches"
+# SAVE_DIR = "./raw/Premier League/2022-2023_Matches"
+SAVE_DIR = "data/fbref/raw/Premier League/2022-2023_Matches"
+TABLE_REF_PATH = "data/fbref/table_ref.csv"
 
 
 def scrape_new_fixtures(league_fixtures_url: str) -> pd.DataFrame:
@@ -240,7 +242,7 @@ def collect():
         to determine whether the collection process succeed or not
     """
     league_fixtures_url = "https://fbref.com/en/comps/9/schedule/Premier-League-Scores-and-Fixtures"
-    TABLE_2_FILENAME = "table_ref.csv"
+    TABLE_2_FILENAME = TABLE_REF_PATH
     
     try:
         # get reference/past fixtures table
