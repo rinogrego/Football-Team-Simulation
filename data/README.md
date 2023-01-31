@@ -2,6 +2,7 @@
 
 This is where the data is stored. Everything in this folder is used as data storage.
 The folder structure is:
+```
 data
     ├── fbref
     │   │    └── raw
@@ -22,3 +23,4 @@ data
         ├── data_for_ml.parquet
         │
         └── ...
+```
