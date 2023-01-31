@@ -1,3 +1,7 @@
+## Feature Storage Folder
+
+This is where the collection of set of features are stored. Everything in this folder is used as feature storage.
+
 ## Feature Flow
 
 ### Feature Engineering
