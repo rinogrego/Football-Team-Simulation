@@ -125,7 +125,7 @@ def create_player_columns(team_id="822bd0ba", team_name="Liverpool"):
   # df_players_one_row.columns.names = ["Club", "Player", "Statistic"]
 
   df_players_one_row = df_players.set_index("Player")
-  df_players_one_row.columns = pd.MultiIndex.from_product([["Fulham"], df_players_one_row.columns])
+  df_players_one_row.columns = pd.MultiIndex.from_product([[team_name], df_players_one_row.columns])
   # pakai column name Club -- Player - Statistics
   df_players_one_row = df_players_one_row.unstack().to_frame().T
   df_players_one_row = df_players_one_row.swaplevel(1, axis=1).sort_values("Player", axis=1)
