@@ -140,6 +140,7 @@ GitHub.sublime-settings
 *.csv
 *.json
 *.docx
+*.parquete
 features/store
 docs
 models
