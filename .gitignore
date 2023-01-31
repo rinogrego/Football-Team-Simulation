@@ -140,6 +140,7 @@ GitHub.sublime-settings
 *.csv
 *.json
 *.docx
+features/store
 docs
 models
 references
