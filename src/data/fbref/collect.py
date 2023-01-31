@@ -48,12 +48,16 @@ import os
 import time
 from utils import get_html_document, scrape_team, scrape_league, \
             clean_team_stats_table, create_player_columns
-from dictionaries.fbref import LEAGUE_CODE, TEAM_CODE, TEAM_DISPLAY
 
 
+DATA_DIR = "data"
 # SAVE_DIR = "./raw/Premier League/2022-2023_Matches"
 SAVE_DIR = "data/fbref/raw/Premier League/2022-2023_Matches"
-TABLE_REF_PATH = "data/fbref/table_ref.csv"
+TABLE_REF_PATH = "data/fbref/raw/Premier League/table_ref.csv"
+
+LEAGUE_CODE = json.load(open(f"{DATA_DIR}/fbref/dictionaries.json"))["LEAGUE_CODE"]
+TEAM_CODE = json.load(open(f"{DATA_DIR}/fbref/dictionaries.json"))["TEAM_CODE"]
+TEAM_DISPLAY = json.load(open(f"{DATA_DIR}/fbref/dictionaries.json"))["TEAM_DISPLAY"]
 
 
 def scrape_new_fixtures(league_fixtures_url: str) -> pd.DataFrame:
@@ -140,8 +144,9 @@ def get_next_matches(df_next_matches: pd.DataFrame) -> pd.DataFrame:
 
 
 def get_pre_match_info(df_next_matches: pd.DataFrame, save_dir=SAVE_DIR):
-    """For each newly appended matches in Table 3, append the pre-match 
-    general information and the players' pre-match statistics into it
+    """Get pre-match information regarding a match and then save it
+    as .csv file. The information includes: the match's general information
+    and the player's pre-match statistics.
     Parameters
     ----------
     match_url : string
@@ -181,7 +186,8 @@ def get_pre_match_info(df_next_matches: pd.DataFrame, save_dir=SAVE_DIR):
             axis=1,
         )
         df_.to_csv(filename)
-        print(f"DataFrame with shape: {df_.shape}; Saved to: {filename}")
+        print(f"{home} vs {away} pre-match information. DataFrame shape: {df_.shape}")
+        print(f"Saved to: {filename}")
 
 
 def get_post_match_data_as_dict(
@@ -207,26 +213,58 @@ def get_post_match_data_as_dict(
     """
     df_ = pd.read_html("https://fbref.com" + match_url)
     desired_column = ["Player", "Pos", "Age", "Min"]
+    
+    # initiating directories
     post_match_dict = {}
     post_match_dict[home] = {}
     post_match_dict[away] = {}
 
+    # processing home team players
     home_players = df_[3].copy()
     home_players.columns = [col[1] for col in home_players.columns.to_flat_index()]
+    
+    next_is_sub = False
     for idx, row in home_players[desired_column].iloc[:-1].iterrows():
+        if next_is_sub:
+            post_match_dict[home][row["Player"] + " (Sub)"] = {}
+            post_match_dict[home][row["Player"] + " (Sub)"]["Pos"] = row["Pos"]
+            post_match_dict[home][row["Player"] + " (Sub)"]["Age"] = row["Age"]
+            post_match_dict[home][row["Player"] + " (Sub)"]["Min"] = row["Min"]
+            next_is_sub = False
+            continue
+            
         post_match_dict[home][row["Player"]] = {}
         post_match_dict[home][row["Player"]]["Pos"] = row["Pos"]
         post_match_dict[home][row["Player"]]["Age"] = row["Age"]
         post_match_dict[home][row["Player"]]["Min"] = row["Min"]
+        if row["Min"] < 90:
+            # fbref indicates substituted players either by string or minutes played
+            # even though the player came on at 90+ min, the player being sent off
+            # has minutes played displayed as 89 and not 90
+            # so players that played the entire match were given 90 minutes otherwise
+            # at max they are given 89
+            next_is_sub = True
 
+    # processing away team players
     away_players = df_[10].copy()
     away_players.columns = [col[1] for col in away_players.columns.to_flat_index()]
     
+    next_is_sub = False
     for idx, row in away_players[desired_column].iloc[:-1].iterrows():
+        if next_is_sub:
+            post_match_dict[away][row["Player"] + " (Sub)"] = {}
+            post_match_dict[away][row["Player"] + " (Sub)"]["Pos"] = row["Pos"]
+            post_match_dict[away][row["Player"] + " (Sub)"]["Age"] = row["Age"]
+            post_match_dict[away][row["Player"] + " (Sub)"]["Min"] = row["Min"]
+            next_is_sub = False
+            continue
+        
         post_match_dict[away][row["Player"]] = {}
         post_match_dict[away][row["Player"]]["Pos"] = row["Pos"]
         post_match_dict[away][row["Player"]]["Age"] = row["Age"]
         post_match_dict[away][row["Player"]]["Min"] = row["Min"]
+        if row["Min"] < 90:
+            next_is_sub = True
 
     return post_match_dict
 
@@ -251,32 +289,28 @@ def collect():
             # header=[0, 1, 2],
             index_col=0
         )
-        # print("Index", table_2.index)
-        # print("Columns", table_2.columns)
         
     except:
         # if no table found then initialize table
         table_1 = scrape_new_fixtures(league_fixtures_url=league_fixtures_url)
         table_1.to_csv(TABLE_2_FILENAME)
-        status = "New Table Fixture Initialized. \nPlease run the script again to obtain pre-match information"
+        status = "New Table Fixture Initialized\nPlease run the script again to obtain pre-match information"
         return status
 
     table_1 = scrape_new_fixtures(league_fixtures_url=league_fixtures_url)
-    # print("Index", table_1.index)
-    # print("Columns", table_1.columns)
     
     ### Testing purpose
     # table_1 = pd.read_csv("table_1_test.csv")
     
     if (table_1["Match Report Link"] == table_2["Match Report Link"]).all() == False:
-    # if table_1.equals(table_2):
         # new table and old table is not the same
         # which means new result (probably) exists
-        print("New match result exists.")
+        print("New match result exists\nStart Processing...")
+        print("============================================================")
         cond = table_1["Match Report Link"] != table_2["Match Report Link"]
         df_new_finished_matches = table_1.loc[cond, :]
         
-        print("Processing post-match information of previous matches.")
+        print("Processing post-match information of previous matches")
         for idx, row in df_new_finished_matches.iterrows():
             match_report_link = row["Match Report Link"]
             home = TEAM_DISPLAY[row["Home"]]
@@ -290,22 +324,27 @@ def collect():
             print(f"Saved to: {SAVE_DIR}/{date}_{home}-vs-{away}.json")
         
         # get next matches
-        print("Scraping future matches' information.")
+        print("============================================================")
+        print("Scraping future matches' information")
+        print("------------------------------------------------------------")
         table_2 = table_1.copy()
         df_next_matches = table_2[table_2["Match Report"] != "Match Report"]
         df_next_matches = get_next_matches(df_next_matches)
         get_pre_match_info(df_next_matches=df_next_matches, save_dir=SAVE_DIR)
+        print("------------------------------------------------------------")
         
         # save newly scrapped table as new reference for the future
         table_2.to_csv(TABLE_2_FILENAME)
-        print("Fixture reference updated.")
-        status = "Collection Success."
+        print("Fixture reference updated")
+        print("============================================================")
+        status = "Collection Success"
     else:
-        status = "No New Data Found."
+        status = "No New Data Found"
         
     return status
 
 
 if __name__ == "__main__":
+    print("Start Scraping for New Data...")
     status = collect()
     print(status)
