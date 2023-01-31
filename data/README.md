@@ -10,6 +10,8 @@ data
     │   │       ├── 2022-2023_Matches
     │   │       │   ├── 2023-01-18_Crystal-Palace-vs-Manchester-United.csv
     │   │       │   ├── 2023-01-18_Crystal-Palace-vs-Manchester-United.json
+    │   │       │   ├── 2023-01-19_Manchester-City-vs-Tottenham-Hotspur.csv
+    │   │       │   ├── 2023-01-19_Manchester-City-vs-Tottenham-Hotspur.json
     │   │       │   └── ...
     │   │       └── table_ref.csv
     │   └── dictionaries.json
