@@ -19,3 +19,5 @@ data
         ├── data_for_ml.parquet
         └── ...
 ```
+
+Pre-match information including the statistics of each player from both teams are saved in csv format. Post-match information are saved in json format. The file for modeling is saved in parquet format.
