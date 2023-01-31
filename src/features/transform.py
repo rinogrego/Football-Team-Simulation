@@ -1,6 +1,6 @@
 """
     File to extract information from collected data. 
-    The transformed data is saved into data/preprocessed directory as .csv file.
+    The transformed data is saved into data/transformed directory as .csv file.
     The transformed data can be used directly for training the model, for analysis, or 
         to be used again for another transformation process.
 """
