@@ -83,3 +83,8 @@ Repository containing transformed data ready to be used for modeling or analysis
 ---- After Baseline Result is Created ----
 
 5. Anticipate Different Season
+
+
+## Important Log/Note
+- On 4th of Feb, 2023 fbref added Progressive Carries on their data
+    - ref: https://twitter.com/fbref/status/1621600649187147778
