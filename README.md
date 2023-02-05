@@ -1,5 +1,7 @@
 # Football 11-vs-11 Simulation
 
+<!-- Implement badges: https://shields.io -->
+
 Web application for player-based football match result prediction. User can build custom teams and then try to predict the result of the match between those two teams.
 
 Can be used to:
@@ -14,9 +16,20 @@ Can be used to:
 3. Want to practice my machine learning engineering skills
 4. It's fun (until I reached the data cleaning part, which is 1 day in after I started the project)
 
+## Features
+
+- Predict a football match given players with their positions for each team in a match
+<!-- - Given an eleven, simulate a league with that eleven (future feature consideration) -->
+
+## Limitations
+
+- Biased towards home team
+- Not many features were considered during model development
+- The model was trained on dataset scrapped from five different leagues, but the league information isn't used when training the model. A good assumption to remember
+
 ## Stack Used
 
-Python for everything. But to be specific:
+Python for (almost) everything. But to be specific:
 
 - Data Scraping: Beautifulsoup4, Pandas.
 - Data Transformation/Preprocessing: Numpy, Pandas.
@@ -36,7 +49,7 @@ Python for everything. But to be specific:
 
 ## Project Structure
 
-Project structure manually created following cookiecutter-data-science guide.
+Project structure manually created following [cookiecutter-data-science](https://drivendata.github.io/cookiecutter-data-science/#directory-structure) guide.
 <!-- Insert ilustrasi project structure  -->
 
 ## Machine Learning End-to-End Project
@@ -130,6 +143,8 @@ The data is transformed by various considerations below. A script named `transfo
   - Deciding on evaluation/performance metric and why
   - Hyperparams tuning
   - Randomness nature of football
+  - The model might be biased towards home team winning, so the prediction isn't exactly fair like being played in neutral venue
+  - Each league in which the matches were used for training the model might actually have different data and score distributions, so it's something important to note
   - Logging
 
 ### Model Deployment & Monitoring
