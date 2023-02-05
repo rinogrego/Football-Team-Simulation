@@ -25,14 +25,14 @@ Python for everything. But to be specific:
 - Backend: Django.
 - Frontend: React.
 
-## Test is Performed On
+<!-- ## Test is Performed On
 
 - When the data is scraped
 - When the data is about to be transformed
 - After the data is transformed
 - After feature engineering
 - Before the data is used to train/retrain the model (tfdv)
-- Before the model is served
+- Before the model is served -->
 
 ## Machine Learning End-to-End Project
 
