@@ -35,7 +35,7 @@ Python for (almost) everything. But to be specific:
 - Data Transformation/Preprocessing: Numpy, Pandas.
 - Modeling: Tensorflow/Keras.
 - MLOps: Github Actions, Docker.
-- Backend: Django.
+- Backend: Django, PostgreSQL.
 - Frontend: React.
 
 <!-- ## Test is Performed On
