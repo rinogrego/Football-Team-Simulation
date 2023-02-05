@@ -51,16 +51,24 @@ from utils import get_html_document, scrape_team, scrape_league, \
 
 
 DATA_DIR = "data"
-# SAVE_DIR = "./raw/Premier League/2022-2023_Matches"
-SAVE_DIR = "data/fbref/raw/Premier League/2022-2023_Matches"
-TABLE_REF_PATH = "data/fbref/raw/Premier League/table_ref.csv"
+# SAVE_DIR = "data/fbref/raw/Premier-League/2022-2023_Matches"
+# TABLE_REF_DIR = "data/fbref/raw"
 
 LEAGUE_CODE = json.load(open(f"{DATA_DIR}/fbref/dictionaries.json"))["LEAGUE_CODE"]
-TEAM_CODE = json.load(open(f"{DATA_DIR}/fbref/dictionaries.json"))["TEAM_CODE"]
-TEAM_DISPLAY = json.load(open(f"{DATA_DIR}/fbref/dictionaries.json"))["TEAM_DISPLAY"]
+LEAGUE_LINK = json.load(open(f"{DATA_DIR}/fbref/dictionaries.json", mode='rb'))["LEAGUE_LINK"]
+TEAM_CODE = json.load(open(f"{DATA_DIR}/fbref/dictionaries.json", mode='rb'))["TEAM_CODE"]
+TEAM_DISPLAY = json.load(open(f"{DATA_DIR}/fbref/dictionaries.json", mode='rb'))["TEAM_DISPLAY"]
+# print(list(TEAM_DISPLAY.keys()))
 
+parser = argparse.ArgumentParser(description='Download Image from Website/Storage Link')
+parser.add_argument('--league', type=str, help='Specify the league to scrape.')
+args = parser.parse_args()
+if args.league is not None:
+    LEAGUE = args.league
+else:
+    LEAGUE = "All"
 
-def scrape_new_fixtures(league_fixtures_url: str) -> pd.DataFrame:
+def scrape_new_fixtures(league: str = "Premier-League") -> pd.DataFrame:
     """Get the new league fixtures information
     Parameters
     ----------
@@ -71,6 +79,8 @@ def scrape_new_fixtures(league_fixtures_url: str) -> pd.DataFrame:
     pd.DataFrame
         pandas DataFrame for Table 1
     """
+    league_fixtures_url = LEAGUE_LINK[league]
+    
     # scrape via beautifulsoup4
     html_doc = get_html_document(league_fixtures_url)
     soup = bs4.BeautifulSoup(html_doc, 'html.parser')
@@ -81,7 +91,7 @@ def scrape_new_fixtures(league_fixtures_url: str) -> pd.DataFrame:
     df_table_1 = df_table_1.dropna(axis=0, how='all').reset_index().drop(columns=["index"])
     df_table_1 = df_table_1[df_table_1["Notes"] != "Match Postponed"]
     df_table_1["Match Report Link"] = 'empty'
-    df_table_1["League"] = "Premier-League"
+    df_table_1["League"] = league
     
     past_matches = []
     temp_soup = soup.find_all('table')[0]
@@ -99,7 +109,7 @@ def scrape_new_fixtures(league_fixtures_url: str) -> pd.DataFrame:
             last_link = link.get('href').split('/')[-1]
 
             # ex: "Merseyside-Derby-Everton-Liverpool-September-3-2022-Premier-League"
-            if "Premier-League" not in last_link:
+            if league not in last_link:
                 continue
 
             last_link = last_link.split("-Derby-")[-1]
@@ -143,7 +153,7 @@ def get_next_matches(df_next_matches: pd.DataFrame) -> pd.DataFrame:
     return df_next_matches
 
 
-def get_pre_match_info(df_next_matches: pd.DataFrame, save_dir=SAVE_DIR):
+def get_pre_match_info(df_next_matches: pd.DataFrame, save_dir: str, league_code: int, re_scrape=False):
     """Get pre-match information regarding a match and then save it
     as .csv file. The information includes: the match's general information
     and the player's pre-match statistics.
@@ -164,16 +174,19 @@ def get_pre_match_info(df_next_matches: pd.DataFrame, save_dir=SAVE_DIR):
         home = TEAM_DISPLAY[row["Home"]]
         away = TEAM_DISPLAY[row["Away"]]
         date = row["Date"]
-        filename = f"{SAVE_DIR}/{date}_{home}-vs-{away}.csv"
+        filename = f"{save_dir}/{date}_{home}-vs-{away}.csv"
         
-        # check if the .csv is already exists then don't scrap
-        if os.path.exists(filename) == True:
-            continue
+        if re_scrape:
+            # check if the .csv is already exists then don't scrape
+            if os.path.exists(filename) == True:
+                continue
 
-        df_home, home_players = create_player_columns(TEAM_CODE[home], home)
+        df_home, home_players = create_player_columns(TEAM_CODE[home], home, league_code=league_code)
         # sleep for 3 seconds to delay scraping just not too spam the requests to fbref
         time.sleep(3)
-        df_away, away_players = create_player_columns(TEAM_CODE[away], away)
+        df_away, away_players = create_player_columns(TEAM_CODE[away], away, league_code=league_code)
+        # sleep for 3 seconds to delay scraping just not too spam the requests to fbref
+        time.sleep(3)
 
         # to prevent concat giving 2 rows instead of 1
         row_ = row.to_frame().T.reset_index().drop(columns=["index"])
@@ -269,7 +282,7 @@ def get_post_match_data_as_dict(
     return post_match_dict
 
 
-def collect():
+def collect(league="Serie-A"):
     """Collect the new raw data and then update the database
     Parameters
     ----------
@@ -279,25 +292,34 @@ def collect():
     str
         to determine whether the collection process succeed or not
     """
-    league_fixtures_url = "https://fbref.com/en/comps/9/schedule/Premier-League-Scores-and-Fixtures"
-    TABLE_2_FILENAME = TABLE_REF_PATH
+    SAVE_DIR = f"{DATA_DIR}/fbref/raw/{league}/2022-2023_Matches"
+    TABLE_REF_PATH = f"{DATA_DIR}/fbref/raw/{league}/table_ref.csv"
+    league_code = LEAGUE_CODE[league]
     
     try:
         # get reference/past fixtures table
         table_2 = pd.read_csv(
-            TABLE_2_FILENAME,
+            TABLE_REF_PATH,
             # header=[0, 1, 2],
             index_col=0
         )
         
     except:
         # if no table found then initialize table
-        table_1 = scrape_new_fixtures(league_fixtures_url=league_fixtures_url)
-        table_1.to_csv(TABLE_2_FILENAME)
-        status = "New Table Fixture Initialized\nPlease run the script again to obtain pre-match information"
+        table_1 = scrape_new_fixtures(league=league)
+        table_1.to_csv(TABLE_REF_PATH)
+        
+        print("============================================================")
+        print("Scraping future matches' information")
+        print("------------------------------------------------------------")
+        df_next_matches = table_1[table_1["Match Report"] != "Match Report"]
+        df_next_matches = get_next_matches(df_next_matches)
+        get_pre_match_info(df_next_matches=df_next_matches, save_dir=SAVE_DIR, league_code=league_code)
+        print("============================================================")
+        status = "New Table Fixture Initialized"
         return status
 
-    table_1 = scrape_new_fixtures(league_fixtures_url=league_fixtures_url)
+    table_1 = scrape_new_fixtures(league=league)
     
     ### Testing purpose
     # table_1 = pd.read_csv("table_1_test.csv")
@@ -330,11 +352,11 @@ def collect():
         table_2 = table_1.copy()
         df_next_matches = table_2[table_2["Match Report"] != "Match Report"]
         df_next_matches = get_next_matches(df_next_matches)
-        get_pre_match_info(df_next_matches=df_next_matches, save_dir=SAVE_DIR)
+        get_pre_match_info(df_next_matches=df_next_matches, save_dir=SAVE_DIR, league_code=league_code)
         print("------------------------------------------------------------")
         
         # save newly scrapped table as new reference for the future
-        table_2.to_csv(TABLE_2_FILENAME)
+        table_2.to_csv(TABLE_REF_PATH)
         print("Fixture reference updated")
         print("============================================================")
         status = "Collection Success"
@@ -345,6 +367,21 @@ def collect():
 
 
 if __name__ == "__main__":
+    LEAGUE_LIST = ["Premier-League", "Serie-A", "La-Liga", "Ligue-1", "Bundesliga"]
     print("Start Scraping for New Data...")
-    status = collect()
+    if LEAGUE == "All":
+        for league in LEAGUE_LIST:
+            print("")
+            print("        LEAGUE:", league.upper())
+            print("")
+            status = collect(league=league)
+            print(f"{league}: {status}")
+        status = "\nCollecting All League Data Success"
+    else:
+        assert LEAGUE in LEAGUE_LIST
+        print("")
+        print("        LEAGUE:", LEAGUE.upper())
+        print("")
+        status = collect(league=LEAGUE)
+        status = f"{LEAGUE.upper()}: {status}"
     print(status)
