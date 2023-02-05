@@ -66,7 +66,7 @@ def clean_team_stats_table(raw_table):
   return raw_table
 
 
-def create_player_columns(team_id="822bd0ba", team_name="Liverpool"):
+def create_player_columns(team_id="822bd0ba", team_name="Liverpool", league_code=9):
   # get html doc of the team
   team_soup = scrape_team(team_id, team_name)
 
@@ -88,7 +88,7 @@ def create_player_columns(team_id="822bd0ba", team_name="Liverpool"):
 
   for stats in stats_list:
     # get individual table of each statistic category
-    table_soup = team_soup.find('table', attrs={'id': f"stats_{stats}_9"})
+    table_soup = team_soup.find('table', attrs={'id': f"stats_{stats}_{league_code}"})
     table_raw = pd.read_html(str(table_soup))[0]
     table_clean = clean_team_stats_table(table_raw)
 
