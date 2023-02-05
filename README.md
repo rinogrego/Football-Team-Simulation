@@ -21,7 +21,7 @@ Python for everything. But to be specific:
 - Data Scraping: Beautifulsoup4, Pandas.
 - Data Transformation/Preprocessing: Numpy, Pandas.
 - Modeling: Tensorflow/Keras.
-- MLOps: ,
+- MLOps: Github Actions, Docker.
 - Backend: Django.
 - Frontend: React.
 
