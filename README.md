@@ -1,4 +1,5 @@
 # Football 11-vs-11 Simulation
+
 Web application for player-based football match result prediction. User can build custom teams and then try to predict the result of the match between those two teams.
 
 Can be used to:
@@ -12,7 +13,6 @@ Can be used to:
 2. Want to code a project of something I like
 3. Want to practice my machine learning engineering skills
 4. It's fun (until I reached the data cleaning part, which is 1 day in after I started the project)
-
 
 ## Stack Used
 
@@ -34,9 +34,14 @@ Python for everything. But to be specific:
 - Before the data is used to train/retrain the model (tfdv)
 - Before the model is served -->
 
+## Project Structure
+
+Project structure manually created following cookiecutter-data-science guide.
+<!-- Insert ilustrasi project structure  -->
+
 ## Machine Learning End-to-End Project
 
-<!-- Insert Gambar ML Life Cycle-->
+<!-- Insert Gambar ML Life Cycle -->
 
 ### Goal
 
@@ -45,15 +50,18 @@ Python for everything. But to be specific:
 
 ### Data Acquisition
 
+<!-- Insert ilustrasi Data Acquisition (fbref logo) along with additional info (like data format (.csv/.json)) -->
+
 - What is the data (and source)
 
   - Information regarding a match which consists of the general information of the match
   - The players pre-match information like their statistics up to before the match
   - Post-match information which consists of the match result and the players that played the game (including subs) along with additional information such as how many minutes they played and their position
+  - Data source: fbref/football references
 
 - How is the data collected
 
-The data is collected through scraping method. A script to automate the process was created so the scraping can just be done by running the script from the terminal.
+The data is collected through scraping method. A script named `collect.py` to automate the process was created so the scraping can just be done by running that script from the terminal.
 
 - How frequent the data is collected
 
@@ -76,17 +84,21 @@ Consistent data shape and format. Treating the missing value (either as 0 or kep
 
 ### Data Transformation / Feature Engineering
 
+The data is transformed by various considerations below. A script named `transform.py` to automate the process was created so the transformation can just be done by running that script from the terminal.
+
 - Handling some common things: missing values, skewed/outlier, duplicates, data types
+
 - Numerical variables
   - per 90s or not
   - standardization/normalization
   - data type (int and float variants like float16, float32, etc.)
 
 - Categorical variables
-  - Player Position feature. There are sixteen different positions recorded in fbref, and it's possible for a player to have more than one position. One-hot encoding will make the dimension grow by 16x11x2 = 352 if we only consider starters in our model. So position embedding was employed.
+  - Player Position feature. There are seventeen different positions recorded in fbref, and it's possible for a player to have more than one position. One-hot encoding will make the dimension grow by 17x11x2 = 352 if we only consider starters in our model. So position embedding is a good consideration.
 
 - Challenges
   - Handling the position information
+  - Logging
 
 ### Feature Selection
 
@@ -97,6 +109,7 @@ Consistent data shape and format. Treating the missing value (either as 0 or kep
 - Challenges
   - Selecting features is tricky because in football, one's attribute (say, shooting) may or may not effect the game depends on either the player's other attributes or the players' teammates or opponents.
   - Selecting one additional feature/attribute for a player means multiplying that feature by the number of players being accounted for the model.
+  - Logging
 
 ### Model Creation & Evaluation
 
@@ -117,6 +130,7 @@ Consistent data shape and format. Treating the missing value (either as 0 or kep
   - Deciding on evaluation/performance metric and why
   - Hyperparams tuning
   - Randomness nature of football
+  - Logging
 
 ### Model Deployment & Monitoring
 
@@ -124,6 +138,7 @@ Consistent data shape and format. Treating the missing value (either as 0 or kep
   - Inputs (details & distribution)
   - Outputs/Predictions (details & distribution)
   - Feature & Model versions
+  - Traffic
   - Latency
   - IO/Memory/Disk Utilisation
   - Uptime/System Reliability
@@ -134,7 +149,7 @@ Consistent data shape and format. Treating the missing value (either as 0 or kep
   - API
 
 - Challenges
-  - Custom monitoring system may be needed
+  - Custom monitoring system may be needed (like creating new django app in the backend for monitoring-all-things-necessary purpose only)
 
 ### Model Re-Training & Model Re-Deployment
 
