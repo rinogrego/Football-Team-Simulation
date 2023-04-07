@@ -60,7 +60,7 @@ TEAM_CODE = json.load(open(f"{DATA_DIR}/fbref/dictionaries.json", mode='rb'))["T
 TEAM_DISPLAY = json.load(open(f"{DATA_DIR}/fbref/dictionaries.json", mode='rb'))["TEAM_DISPLAY"]
 # print(list(TEAM_DISPLAY.keys()))
 
-parser = argparse.ArgumentParser(description='Download Image from Website/Storage Link')
+parser = argparse.ArgumentParser(description='Script to automatically scrape pre-and-post-match information')
 parser.add_argument('--league', type=str, help='Specify the league to scrape.')
 args = parser.parse_args()
 if args.league is not None:
@@ -320,6 +320,16 @@ def collect(league="Serie-A"):
         return status
 
     table_1 = scrape_new_fixtures(league=league)
+    # import numpy as np
+    # for idx, (row_t1, row_t2) in enumerate(zip(table_1.to_numpy(), table_2.to_numpy())):
+    #     print(np.array_equal(row_t1, row_t2))
+    #     break
+    #     if np.array_equal(row_t1, row_t2):
+    #         print()
+    #         print("INDEX", idx)
+    #         print(row_t1)
+    #         print(row_t2)
+    #         print()
     
     ### Testing purpose
     # table_1 = pd.read_csv("table_1_test.csv")
@@ -327,7 +337,7 @@ def collect(league="Serie-A"):
     if (table_1["Match Report Link"] == table_2["Match Report Link"]).all() == False:
         # new table and old table is not the same
         # which means new result (probably) exists
-        print("New match result exists\nStart Processing...")
+        print("New match result exists!\nStart Processing...")
         print("============================================================")
         cond = table_1["Match Report Link"] != table_2["Match Report Link"]
         df_new_finished_matches = table_1.loc[cond, :]
