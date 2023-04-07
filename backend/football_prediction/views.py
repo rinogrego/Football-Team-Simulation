@@ -1,14 +1,21 @@
 from django.shortcuts import render
-from .models import User, Prediction
+from .models import Prediction
+from django.http import JsonResponse
 
-# Create your views here.
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .serializers import PredictionSerializer
+
+
 def index(request):
     # ref: https://stackoverflow.com/questions/62764900/check-if-the-user-has-logged-in-with-social-account-django
     # ref: https://ilovedjango.com/django/authentication/allauth/allauth-django/
     # ref: https://stackoverflow.com/questions/13139543/django-allauth-accessing-socialaccount-set-all-from-within-a-view
-    return render(request, "index.html")
+    return render(request, "football_prediction/index.html")
 
-def predict(request):
+
+@api_view(["POST"])
+def _predict(request):
     # check user is authenticated or not
     #request.user.is_authenticated()
     if request.method == "POST":
@@ -128,3 +135,48 @@ def predict(request):
         # return render(request, "...", {"err": "Error, cannot do prediction"}, status=500 #Internal server error)
         
     return render(request, "predict.html")
+
+
+@api_view(["POST"])
+def predict(request):
+    # ref: https://www.django-rest-framework.org/api-guide/serializers/
+    # ref: https://stackoverflow.com/questions/38909652/using-curl-and-django-rest-framework-in-terminal
+    # ref: https://devqa.io/curl-sending-api-requests/
+    print(request.data.get("home_player_01"))
+    serializer = PredictionSerializer(data=request.data)
+    
+    if serializer.is_valid():
+        print("serializer is valid!")
+        serializer.save()
+    else:
+        print("serializer not valid")
+    
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def view_predictions(request):
+    preds = Prediction.objects.all()
+    serializer = PredictionSerializer(preds, many=True)
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def get_available_players(request):
+    players = [
+        "Alisson",
+        "Virgil-van-Dijk",
+        "Mohamed-Salah"
+    ]
+    return JsonResponse(players, safe=False)
+
+
+@api_view(["GET"])
+def get_available_positions(request):
+    POSITION_CHOICES = [
+        "GK", 
+        "DF", "CB", "FB", "LB", "RB", "WB",
+        "MF", "DM", "CM", "LM", "RM", "WM", "AM",
+        "FW", "LW", "RW"
+    ]
+    return JsonResponse(POSITION_CHOICES, safe=False)

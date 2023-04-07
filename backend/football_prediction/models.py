@@ -7,7 +7,7 @@ from django.db import models
 
 class Prediction(models.Model):
     # identity and request date
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="predictions")
+    # user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="predictions")
     datetime = models.DateTimeField(auto_now_add=True)
     
     # home players
