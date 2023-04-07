@@ -143,9 +143,8 @@ GitHub.sublime-settings
 *.docx
 *.parquete
 *.zip
-data/raw
-data/transformed
-features/store
+data
+features
 docs
 models
 references
