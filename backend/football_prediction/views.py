@@ -150,6 +150,11 @@ def predict(request):
         serializer.save()
     else:
         print("serializer not valid")
+        
+    # construct inputs
+    # load_model
+    # model = 
+    # preds = 
     
     return Response(serializer.data)
 
@@ -163,11 +168,10 @@ def view_predictions(request):
 
 @api_view(["GET"])
 def get_available_players(request):
-    players = [
-        "Alisson",
-        "Virgil-van-Dijk",
-        "Mohamed-Salah"
-    ]
+    import pandas as pd
+    import numpy as np
+    df = pd.read_csv("data/transformed/player_references.csv", index_col=0)
+    players = np.sort(df.player.values).tolist()
     return JsonResponse(players, safe=False)
 
 

@@ -60,7 +60,7 @@ function generate_player_selection(id){
             if (available_options.includes(player) === false) {
                 const player_option = document.createElement('option');
                 player_option.value = `${player}`;
-                player_option.innerHTML = `${player.replace('-', ' ').replace('-', ' ')}`;
+                player_option.innerHTML = `${player.replace('-', ' ')}`;
                 select_tag.appendChild(player_option);
             }
         })
