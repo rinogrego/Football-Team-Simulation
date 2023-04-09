@@ -142,19 +142,31 @@ def predict(request):
     # ref: https://www.django-rest-framework.org/api-guide/serializers/
     # ref: https://stackoverflow.com/questions/38909652/using-curl-and-django-rest-framework-in-terminal
     # ref: https://devqa.io/curl-sending-api-requests/
-    print(request.data.get("home_player_01"))
+    
+    from tensorflow import keras
+    import numpy as np
+    from .utils import create_instance
+    
+    model = keras.models.load_model("models/baseline-model.h5")
+    instance = create_instance(request.data)
+    preds = model.predict([instance])
+    home_score = preds[0][0][0]
+    away_score = preds[0][0][1]
+    home_result = np.argmax(preds[1][0])
+    home_result_dict = {0: "W", 1: "D", 2:"L"}
+    home_result = home_result_dict[home_result]
     serializer = PredictionSerializer(data=request.data)
     
     if serializer.is_valid():
-        print("serializer is valid!")
-        serializer.save()
+        print("prediction serializer is valid!")
+        saved_serializer = serializer.save(
+            home_score_pred = home_score,
+            away_score_pred = away_score,
+            home_result_pred = home_result
+        )
+        print("saved serializer")
     else:
         print("serializer not valid")
-        
-    # construct inputs
-    # load_model
-    # model = 
-    # preds = 
     
     return Response(serializer.data)
 
