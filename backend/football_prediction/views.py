@@ -6,6 +6,15 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import PredictionSerializer
 
+from tensorflow import keras
+import numpy as np
+import pandas as pd
+
+from .utils import create_instance
+
+model = keras.models.load_model("models/baseline-model.h5")
+print("model loaded")
+
 
 def index(request):
     # ref: https://stackoverflow.com/questions/62764900/check-if-the-user-has-logged-in-with-social-account-django
@@ -143,11 +152,6 @@ def predict(request):
     # ref: https://stackoverflow.com/questions/38909652/using-curl-and-django-rest-framework-in-terminal
     # ref: https://devqa.io/curl-sending-api-requests/
     
-    from tensorflow import keras
-    import numpy as np
-    from .utils import create_instance
-    
-    model = keras.models.load_model("models/baseline-model.h5")
     instance = create_instance(request.data)
     preds = model.predict([instance])
     home_score = preds[0][0][0]
@@ -180,8 +184,6 @@ def view_predictions(request):
 
 @api_view(["GET"])
 def get_available_players(request):
-    import pandas as pd
-    import numpy as np
     df = pd.read_csv("data/transformed/player_references.csv", index_col=0)
     players = np.sort(df.player.values).tolist()
     return JsonResponse(players, safe=False)
