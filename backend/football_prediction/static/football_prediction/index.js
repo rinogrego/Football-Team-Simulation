@@ -1,3 +1,9 @@
+document.addEventListener("DOMContentLoaded", () => {
+
+  
+})
+
+
 function generate_position_selection(id){
     // Thanks: https://stackoverflow.com/questions/68223406/how-to-create-select-dropdown-in-javascript-with-fetched-data-from-api
     
