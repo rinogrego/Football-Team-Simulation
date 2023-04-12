@@ -92,8 +92,8 @@ The data is stored in folder specialized for storage so that it can be switched 
 ### Data Cleaning
 
 - Challenges
-
-Consistent data shape and format. Treating the missing value (either as 0 or kept as NaN).
+  - Consistent data shape and format. Treating the missing value (either as 0 or kept as NaN).
+  - Duplicate found for players transferred within the same league for player references
 
 ### Data Transformation / Feature Engineering
 
@@ -110,6 +110,8 @@ The data is transformed by various considerations below. A script named `transfo
   - Player Position feature. There are seventeen different positions recorded in fbref, and it's possible for a player to have more than one position. One-hot encoding will make the dimension grow by 17x11x2 = 352 if we only consider starters in our model. So position embedding is a good consideration.
 
 - Challenges
+  - Too many variables (attributes) to track/monitor (distribution, missing value, etc.)
+  - Creating input pipeline (tf.data)
   - Handling the position information
   - Logging
 
@@ -127,11 +129,12 @@ The data is transformed by various considerations below. A script named `transfo
 ### Model Creation & Evaluation
 
 - Models
-  - Neural Network (baseline)
-  - Embedding + NN
-  - 1D-CNN/LSTM/BiLSTM
+  - ~~Neural Network (baseline)~~
+  - ~~Embedding + NN~~
+  - ~~1D-CNN/LSTM/BiLSTM~~
   - Transformer Encoder
   - NN/Embedding/Transformer for Feature Extraction and then classic ML models
+  - TabTransformer
 
 - Evaluation
   - Score: mean absolute error, rooted mean squared error
@@ -169,3 +172,19 @@ The data is transformed by various considerations below. A script named `transfo
 ### Model Re-Training & Model Re-Deployment
 
 - Challenges
+  - implementing incremental training
+  - monitoring model
+  - Tests code or GitHub actions for testing new deployed model against the older version
+  - implement A/B test environment
+
+### Overall Challenges Faced
+
+- Properly modelling the problem
+  - Need to shuffle player input positions
+  - Normalizing the attributes used as inputs
+  - Determining the 'properness' of the team's position composition
+  - Determining the 'properness' of the player's attributes and their position
+- Creating separate logic for backend and frontend
+  - backend: djangorestframework
+  - frontend: React
+- Maintaining data science end-to-end pipeline

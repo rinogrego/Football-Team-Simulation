@@ -6,7 +6,7 @@ def create_instance(request_data):
     
     f = open("features/store/feature_test.json")
     attributes_list = json.load(f)["register_features"]
-    player_ref = pd.read_csv("data/transformed/player_references.csv", index_col=0)
+    player_ref = pd.read_csv("data/transformed/player_references.csv", index_col=0).groupby(["player"], as_index=False).sum()
     # instance = {}
     instance = {
         "home_player_01": [],

@@ -22,7 +22,12 @@
     </div>
 
     <div class="container p-5">
-        <form action="{% url 'predict' %}" method="POST">
+        {% if message %}
+            <h5>Error. {{ message }}</h5>
+        {% endif %}
+        <form action="{% url 'show-prediction' %}" method="POST">
+        <!-- <form action="{% url 'predict' %}" method="POST"> -->
+        <!-- <form onsubmit="getPrediction(this)"> -->
             {% csrf_token %} 
             <div class="row" id="inputs">
                 <div class="col-6">
