@@ -4,9 +4,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // fetch available players
     localStorage.removeItem("availablePlayers");
+    fetch("api/database/players")
+    .then(response => response.json())
+    .then(data => {
+        localStorage.setItem("availablePlayers", JSON.stringify(data))
+        console.log("API call available players success");
+    })
     
     // fetch available positions
     localStorage.removeItem("availablePositions");
+    fetch("api/database/positions")
+    .then(response => response.json())
+    .then(data => {
+        localStorage.setItem("availablePositions", JSON.stringify(data));
+        console.log("API call available positions success");
+    })
   
 })
 
@@ -26,23 +38,8 @@ function generatePositionSelection(id){
         }
     })
 
-    const getPositions = async() => {
-        const data = await fetch("api/database/positions")
-        .then(response => response.json())
-        .then(data => {
-            localStorage.setItem("availablePositions", JSON.stringify(data));
-            return data
-        })
-        return data
-    }
-
     const displayPositionOptions = async () => {
-        // check localStorage
-        if (localStorage.getItem("availablePositions") === null) {
-            var options = await getPositions();
-        } else {
-            var options = JSON.parse(localStorage.getItem("availablePositions"));
-        }
+        const options = JSON.parse(localStorage.getItem("availablePositions"));
         options.forEach(position => {
             if (available_options.includes(position) === false) {
                 const position_option = document.createElement('option');
@@ -70,23 +67,8 @@ function generatePlayerSelection(id){
         }
     })
 
-    const getPlayers = async() => {
-        const data = await fetch("api/database/players")
-        .then(response => response.json())
-        .then(data => {
-            localStorage.setItem("availablePlayers", JSON.stringify(data))
-            return data
-        })
-        return data
-    }
-
     const displayPlayerOptions = async () => {
-        // check localStorage
-        if (localStorage.getItem("availablePlayers") === null) {
-            var players = await getPlayers();
-        } else {
-            var players = JSON.parse(localStorage.getItem("availablePlayers"));
-        }
+        const players = JSON.parse(localStorage.getItem("availablePlayers"));
         players.forEach(player => {
             if (available_options.includes(player) === false) {
                 const player_option = document.createElement('option');
