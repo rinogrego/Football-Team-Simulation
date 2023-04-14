@@ -11,16 +11,18 @@ from tensorflow import keras
 import numpy as np
 import pandas as pd
 import os
+import json
 
 from .utils import create_instance
 
 
-MODEL_PATH = os.path.join("E:/Projects/2023/Football Team Simulation/", "models/baseline-model.h5")
+MODEL_PATH = os.path.join("E:/Projects/2023/Football Team Simulation/", "models/baseline/baseline-model.h5")
+FEATURES_PATH = os.path.join("E:/Projects/2023/Football Team Simulation/", "models/baseline/baseline-feature.json")
 PLAYER_REFERENCES_PATH = os.path.join("E:/Projects/2023/Football Team Simulation/", "data/transformed/player_references.csv")
-POSITION_CHOICES_PATH = os.path.join("E:/Projects/2023/Football Team Simulation/", "")
 
 
 model = keras.models.load_model(MODEL_PATH)
+position_choices = json.load(open(FEATURES_PATH))["position_choices"]
 df = pd.read_csv(PLAYER_REFERENCES_PATH, index_col=0).groupby(["player"], as_index=False).sum()
 
 
@@ -115,10 +117,4 @@ def get_available_players(request):
 
 @api_view(["GET"])
 def get_available_positions(request):
-    POSITION_CHOICES = [
-        "GK", 
-        "DF", "CB", "FB", "LB", "RB", "WB",
-        "MF", "DM", "CM", "LM", "RM", "WM", "AM",
-        "FW", "LW", "RW"
-    ]
-    return JsonResponse(POSITION_CHOICES, safe=False)
+    return JsonResponse(position_choices, safe=False)

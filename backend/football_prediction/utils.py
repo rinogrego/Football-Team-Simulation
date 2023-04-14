@@ -4,13 +4,13 @@ import numpy as np
 import os
 
 
-FEATURE_PATH = os.path.join("E:/Projects/2023/Football Team Simulation/", "features/store/feature_test.json")
+FEATURES_PATH = os.path.join("E:/Projects/2023/Football Team Simulation/", "models/baseline/baseline-feature.json")
 PLAYER_REFERENCES_PATH = os.path.join("E:/Projects/2023/Football Team Simulation/", "data/transformed/player_references.csv")
 
 
 def create_instance(request_data):
     
-    f = open(FEATURE_PATH)
+    f = open(FEATURES_PATH)
     attributes_list = json.load(f)["register_features"]
     player_ref = pd.read_csv(PLAYER_REFERENCES_PATH, index_col=0).groupby(["player"], as_index=False).sum()
     # instance = {}
