@@ -10,11 +10,19 @@ from .serializers import PredictionSerializer
 from tensorflow import keras
 import numpy as np
 import pandas as pd
+import os
 
 from .utils import create_instance
 
-model = keras.models.load_model("models/baseline-model.h5")
-df = pd.read_csv("data/transformed/player_references.csv", index_col=0).groupby(["player"], as_index=False).sum()
+
+MODEL_PATH = os.path.join("E:/Projects/2023/Football Team Simulation/", "models/baseline-model.h5")
+PLAYER_REFERENCES_PATH = os.path.join("E:/Projects/2023/Football Team Simulation/", "data/transformed/player_references.csv")
+POSITION_CHOICES_PATH = os.path.join("E:/Projects/2023/Football Team Simulation/", "")
+
+
+model = keras.models.load_model(MODEL_PATH)
+df = pd.read_csv(PLAYER_REFERENCES_PATH, index_col=0).groupby(["player"], as_index=False).sum()
+
 
 def index(request):
     # ref: https://stackoverflow.com/questions/62764900/check-if-the-user-has-logged-in-with-social-account-django

@@ -1,12 +1,18 @@
 import pandas as pd
 import json
 import numpy as np
+import os
+
+
+FEATURE_PATH = os.path.join("E:/Projects/2023/Football Team Simulation/", "features/store/feature_test.json")
+PLAYER_REFERENCES_PATH = os.path.join("E:/Projects/2023/Football Team Simulation/", "data/transformed/player_references.csv")
+
 
 def create_instance(request_data):
     
-    f = open("features/store/feature_test.json")
+    f = open(FEATURE_PATH)
     attributes_list = json.load(f)["register_features"]
-    player_ref = pd.read_csv("data/transformed/player_references.csv", index_col=0).groupby(["player"], as_index=False).sum()
+    player_ref = pd.read_csv(PLAYER_REFERENCES_PATH, index_col=0).groupby(["player"], as_index=False).sum()
     # instance = {}
     instance = {
         "home_player_01": [],
