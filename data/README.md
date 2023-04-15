@@ -34,3 +34,4 @@ data
 - Pre-match information including the statistics of each player from both teams are saved in csv format.
 - Post-match information are saved in json format.
 - The file for modeling is saved in parquet format.
+- Dictionary is a json file that contains information used by data source (e.g. link to scrap)
