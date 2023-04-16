@@ -35,7 +35,7 @@ Can be used to:
 Python for (almost) everything backend. But to be specific:
 
 - Data Scraping: Beautifulsoup4, Pandas
-- Data Transformation/Preprocessing: Numpy, Pandas
+- Data Transformation/Preprocessing: Numpy, Pandas, Scikit-learn
 - Modeling: Tensorflow/Keras
 - Backend: Django & djangorestframework
 - Frontend: plain JavaScript, CSS with bootstrap
@@ -63,16 +63,20 @@ Project structure manually created following [cookiecutter-data-science](https:/
 I tried to imitate how ML in industry (probably) works. I divided the project into 4 different works. This enables me to focus on 1 part without worrying it would break the other parts.
 
 - Acquiring data
-  - Create a script to automatically scrap and save the data to data folder. Script is run manually (no job scheduler)
+
+Create a script to automatically scrap and save the data to data folder. Script is run manually (no job scheduler)
 
 - Transforming data and modelling
-  - Transforming the acquired data and then using it for modelling is done in notebook environment.
+
+Transforming the acquired data and then using it for modelling is done in notebook environment.
 
 - Deployment (backend)
-  - Deployed in two ways, first is via django templating HTML, and second is via djangorestframework for API call.
+
+Deployed in two ways, first is via django templating HTML, and second is via djangorestframework for API call.
 
 - Deployment (frontend)
-  - Currently done via django templating. But plans to implement it with React.
+
+Currently done via django templating. But plans to implement it with React.
 
 ## What I've Learnt
 
