@@ -32,7 +32,7 @@ Can be used to:
 
 ## Stack Used
 
-Python for (almost) everything. But to be specific:
+Python for (almost) everything backend. But to be specific:
 
 - Data Scraping: Beautifulsoup4, Pandas
 - Data Transformation/Preprocessing: Numpy, Pandas
@@ -49,7 +49,7 @@ Project structure manually created following [cookiecutter-data-science](https:/
 ## Overall Challenges Faced
 
 - Properly modelling the problem
-  - Need to shuffle player input positions
+  - Need to shuffle player input positions so that the model can see that input location isn't correlated with player position
   - Normalizing the attributes used as inputs
   - Determining the 'properness' of the team's position composition
   - Determining the 'properness' of the player's attributes and their position
@@ -57,6 +57,22 @@ Project structure manually created following [cookiecutter-data-science](https:/
   - backend: djangorestframework
   - frontend: React
 - Maintaining data science end-to-end pipeline
+
+## How I approach the Project
+
+I tried to imitate how ML in industry (probably) works. I divided the project into 4 different works. This enables me to focus on 1 part without worrying it would break the other parts.
+
+- Acquiring data
+  - Create a script to automatically scrap and save the data to data folder. Script is run manually (no job scheduler)
+
+- Transforming data and modelling
+  - Transforming the acquired data and then using it for modelling is done in notebook environment.
+
+- Deployment (backend)
+  - Deployed in two ways, first is via django templating HTML, and second is via djangorestframework for API call.
+
+- Deployment (frontend)
+  - Currently done via django templating. But plans to implement it with React.
 
 ## What I've Learnt
 
@@ -75,44 +91,16 @@ Project structure manually created following [cookiecutter-data-science](https:/
 - Overall
   - Conscious about how useful it is to differentiate directories/storages for data, features, and models
 
-## Ideas for future works
+<!-- 
+## Images/Illustration
 
-- Frontend
-  - React implementation
-  - Formation form suggestion to auto-fill formations
-  - Team separator in player selection form
-  - Frontend form validation
-- Backend
-  - Scheduled data acquisition
-  - Access model specifications (model architecture, features used, etc.)
-  - Performance monitoring
-  - Implement model experiment tracking
-  - Implement `collect.py` -> `transform.py` -> `increment_training.py` -> `push_model.py` with one code execution
-  - Implement logging
-- App Feature
-  - Login system
-  - League simulation
-- Overengineering the entire thing
-  - pandas -> polars
-  - tfx
-  - React
-  - Custom monitoring
-  - Test cases
-  - GitHub actions for CI/CD
-  - Docker, kubernetes
-
-## How I approach the Project
-
-I tried to imitate how ML in industry (probably) works. I divided the project into 4 different works. This enables me to focus on 1 part without worrying it would break the other parts.
-
-- Acquiring data
-  - Create a script to automatically scrap and save the data to data folder. Script is run manually (no job scheduler)
-
-- Transforming data and modelling
-  - Transforming the acquired data and then using it for modelling is done in notebook environment.
-
-- Deployment (backend)
-  - Deployed in two ways, first is via django templating HTML, and second is via djangorestframework for API call.
-
-- Deployment (frontend)
-  - Currently done via django templating. But plans to implement it with React.
+- Workflow from data acquisition to model deployment
+- About data acquisition
+- About data transformation
+- About separated workflow for
+  - Data acquisition/engineering
+  - Modelling
+  - Deployment/Web development
+    - Frontend
+    - Backend
+- Model architecture plot -->
