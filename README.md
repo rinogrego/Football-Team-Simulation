@@ -46,18 +46,6 @@ Project structure manually created following [cookiecutter-data-science](https:/
 
 <!-- Insert ilustrasi project structure  -->
 
-## Overall Challenges Faced
-
-- Properly modelling the problem
-  - Need to shuffle player input positions so that the model can see that input location isn't correlated with player position
-  - Normalizing the attributes used as inputs
-  - Determining the 'properness' of the team's position composition
-  - Determining the 'properness' of the player's attributes and their position
-- Creating separate logic for backend and frontend
-  - backend: djangorestframework
-  - frontend: React
-- Maintaining data science end-to-end pipeline
-
 ## How I approach the Project
 
 I tried to imitate how ML in industry (probably) works. I divided the project into 4 different works. This enables me to focus on 1 part without worrying it would break the other parts.
@@ -94,6 +82,18 @@ Currently done via django templating. But plans to implement it with React.
   - Learnt how to serve ML app with djangorestframework
 - Overall
   - Conscious about how useful it is to differentiate directories/storages for data, features, and models
+
+## Overall Challenges Faced
+
+- Properly modelling the problem
+  - Need to shuffle player input positions so that the model can see that input location isn't correlated with player position
+  - Normalizing the attributes used as inputs
+  - Determining the 'properness' of the team's position composition
+  - Determining the 'properness' of the player's attributes and their position
+- Creating separate logic for backend and frontend
+  - backend: djangorestframework
+  - frontend: React
+- Maintaining data science end-to-end pipeline
 
 <!-- 
 ## Images/Illustration
