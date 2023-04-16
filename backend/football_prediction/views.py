@@ -7,21 +7,17 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import PredictionSerializer
 
-from tensorflow import keras
 import numpy as np
 import pandas as pd
 import os
 import json
 
-from .utils import create_instance
+from .utils import create_instance, get_inference
 
 
-MODEL_PATH = os.path.join("E:/Projects/2023/Football Team Simulation/", "models/baseline/baseline-model.h5")
 FEATURES_PATH = os.path.join("E:/Projects/2023/Football Team Simulation/", "models/baseline/baseline-feature.json")
 PLAYER_REFERENCES_PATH = os.path.join("E:/Projects/2023/Football Team Simulation/", "data/transformed/player_references.csv")
 
-
-model = keras.models.load_model(MODEL_PATH)
 position_choices = json.load(open(FEATURES_PATH))["position_choices"]
 df = pd.read_csv(PLAYER_REFERENCES_PATH, index_col=0).groupby(["player"], as_index=False).sum()
 
@@ -42,12 +38,7 @@ def show_prediction(request):
     serializer = PredictionSerializer(data=request.data)
     if serializer.is_valid():
         instance = create_instance(request.data)
-        preds = model.predict([instance])
-        home_score = preds[0][0][0]
-        away_score = preds[0][0][1]
-        home_result = np.argmax(preds[1][0])
-        home_result_dict = {0: "W", 1: "D", 2:"L"}
-        home_result = home_result_dict[home_result]
+        home_score, away_score, home_result = get_inference(instance)
         
         serializer.save(
             home_score_pred = home_score,
@@ -77,19 +68,13 @@ def predict(request):
     # ref: https://stackoverflow.com/questions/38909652/using-curl-and-django-rest-framework-in-terminal
     # ref: https://devqa.io/curl-sending-api-requests/
     
-    instance = create_instance(request.data)
-    # for key, value in instance.items():
-    #     print(key, value.shape)
-    preds = model.predict([instance])
-    home_score = preds[0][0][0]
-    away_score = preds[0][0][1]
-    home_result = np.argmax(preds[1][0])
-    home_result_dict = {0: "W", 1: "D", 2:"L"}
-    home_result = home_result_dict[home_result]
-    serializer = PredictionSerializer(data=request.data)
     
+    serializer = PredictionSerializer(data=request.data)
     if serializer.is_valid():
-        saved_serializer = serializer.save(
+        instance = create_instance(request.data)
+        home_score, away_score, home_result = get_inference(instance)
+        
+        serializer.save(
             home_score_pred = home_score,
             away_score_pred = away_score,
             home_result_pred = home_result

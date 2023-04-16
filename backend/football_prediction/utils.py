@@ -3,10 +3,13 @@ import json
 import numpy as np
 import os
 
+from tensorflow import keras
+
 
 FEATURES_PATH = os.path.join("E:/Projects/2023/Football Team Simulation/", "models/baseline/baseline-feature.json")
 PLAYER_REFERENCES_PATH = os.path.join("E:/Projects/2023/Football Team Simulation/", "data/transformed/player_references.csv")
-
+MODEL_PATH = os.path.join("E:/Projects/2023/Football Team Simulation/", "models/baseline/baseline-model.h5")
+model = keras.models.load_model(MODEL_PATH)
 
 def create_instance(request_data):
     
@@ -70,3 +73,15 @@ def create_instance(request_data):
                 instance[key] = player_ref.query("player == @value")[attributes_list].fillna(0).to_numpy()
             
     return instance
+
+
+def get_inference(instance):
+    
+    preds = model.predict([instance])
+    home_score = preds[0][0][0]
+    away_score = preds[0][0][1]
+    home_result = np.argmax(preds[1][0])
+    home_result_dict = {0: "W", 1: "D", 2:"L"}
+    home_result = home_result_dict[home_result]
+    
+    return home_score, away_score, home_result
