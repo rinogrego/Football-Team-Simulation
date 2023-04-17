@@ -22,6 +22,7 @@ google-auth==2.16.0
 google-auth-oauthlib==0.4.6
 google-pasta==0.2.0
 grpcio==1.51.1
+gunicorn==20.1.0
 h5py==3.8.0
 html5lib==1.1
 idna==3.4
@@ -72,4 +73,5 @@ tzdata==2022.7
 urllib3==1.26.14
 webencodings==0.5.1
 Werkzeug==2.2.2
+whitenoise==6.4.0
 wrapt==1.14.1
