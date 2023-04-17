@@ -1,1 +1,1 @@
-web: gunicorn --pythonpath backend.backend.wsgi
+web: sh ./backend/run.sh
