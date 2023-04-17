@@ -65,14 +65,20 @@ def create_instance(request_data):
     }
     instance_keys = [key for key in instance.keys()]
     
+    players_not_found = []
     for key, value in request_data.items():
         if key in instance_keys:
             if "position" in key:
+                # value here indicates position
                 instance[key] = np.array([value], dtype="object")
             else:
+                # value here indicates player name
                 instance[key] = player_ref.query("player == @value")[attributes_list].fillna(0).to_numpy()
+                if instance[key].shape[0] == 0:
+                    # print("ERROR --- No player", value, "in the database.")
+                    players_not_found.append(value)
             
-    return instance
+    return instance, players_not_found
 
 
 def get_inference(instance):

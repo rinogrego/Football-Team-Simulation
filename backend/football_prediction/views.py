@@ -37,7 +37,13 @@ def show_prediction(request):
     
     serializer = PredictionSerializer(data=request.data)
     if serializer.is_valid():
-        instance = create_instance(request.data)
+        instance, players_not_found = create_instance(request.data)
+        if len(players_not_found) > 0:
+            return JsonResponse({
+                "message": "the following players you asked were not found in the database. since the player list came from the server then the error came from our part",
+                "players_not_found": players_not_found
+            })
+            
         home_score, away_score, home_result = get_inference(instance)
         
         serializer.save(
@@ -71,7 +77,13 @@ def predict(request):
     
     serializer = PredictionSerializer(data=request.data)
     if serializer.is_valid():
-        instance = create_instance(request.data)
+        instance, players_not_found = create_instance(request.data)
+        if len(players_not_found) > 0:
+            return JsonResponse({
+                "message": "the following players you asked were not found in the database if you used the player list from the server then the error came from our part",
+                "players_not_found": players_not_found
+            })
+            
         home_score, away_score, home_result = get_inference(instance)
         
         serializer.save(
