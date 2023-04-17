@@ -17,9 +17,9 @@ Can be used to:
 4. It's fun (until I reached the data cleaning part, which is 1 day in after I started the project)
 5. To fill my time
 
-*Being serious*, I am intrigued in creating a machine learning model to predict football match results. And since football match is heavily dependent on not only the team capabilities but also each players abilities and also their role for the team, I wanted to create a model that can predict the match outcome that consider these things and not just overall team capabilites. This is my main motivation for the project. To create a model that can predict a football match result that considers the details such as not only the player's abilities but also where they play.
+*Being serious*, I am intrigued to build a machine learning model to predict football match result. And since football match is heavily dependent on not only the team capabilities but also each players abilities and also their role for the team, I wanted to build a model that can predict the match outcome that consider these things and not just overall team capabilites. This is my main motivation for the project. To build a model that can predict a football match result that considers the details such as not only the player's abilities but also where they play.
 
-**I am well aware** that a football match have too many variables that can impact it but I think the challenge of scratching the surface of that problem is fun.
+**I am well aware** that a football match have too many variables that can impact its result but I think the challenge of scratching the surface of that problem is fun.
 
 **I am well aware** that this sh\*t can be turned into gambling tool but f\*ck it. I did this for fun and to hone my skills. I think the engineering challenge is good for me to try.
 
@@ -28,7 +28,7 @@ Can be used to:
 - Biased towards home team
 - Not many attribute features were considered during model development
 - The model was trained on dataset scrapped from five different leagues, but the league information isn't used when training the model. A good assumption to remember
-- **NEED SOOO MANY** data points to make a good model to the point that I think I will never be able to create a good model
+- **NEED SOOO MANY** data points to make a good model to the point that I think I will never be able to make a good model
 
 ## Stack Used
 
