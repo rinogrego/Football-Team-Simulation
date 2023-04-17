@@ -2,7 +2,6 @@
 
 This README section explains the things regarding end-to-end machine learning of this project from collecting the data to deploying the model and further things that can be implemented or improved.
 
-<!-- Insert Gambar ML Life Cycle -->
 <div align="center">
   <h2>Tech Stack Used</h2>
   <img src="docs\images\football-prediction-project-stacks.PNG" />
@@ -309,10 +308,11 @@ will give the response something like below back
 - Backend
   - Scheduled data acquisition
   - Access model specifications (model architecture, features used, etc.)
-  - Performance monitoring
+  - Add model version used in Prediction table to django model DB
   - Implement model experiment tracking
   - Implement `collect.py` -> `transform.py` -> `increment_training.py` -> `push_model.py` with one code execution
   - Implement logging
+  - Performance monitoring
 - App Feature
   - Login system
   - League simulation
