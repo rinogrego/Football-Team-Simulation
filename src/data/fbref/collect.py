@@ -1,38 +1,33 @@
 """
     File to collect new data from fbref
     
-    There are 3 tables with following purposes:
+    There are 3 kinds of .csv (say, Table) files with following purposes:
     1. To scrape new league fixtures data (temporary table)
             Link Example: https://fbref.com/en/comps/9/schedule/Premier-League-Scores-and-Fixtures
     2. To store the latest (scrapped) league fixtures data
-            Link Example: https://fbref.com/en/comps/9/schedule/Premier-League-Scores-and-Fixtures
-    3. To store raw single match data which includes:
-        a. General information regarding the match
-            Link Example: https://fbref.com/en/comps/9/schedule/Premier-League-Scores-and-Fixtures
-                          https://fbref.com/en/matches/de515487/Liverpool-Bournemouth-August-27-2022-Premier-League
-                          https://fbref.com/en/stathead/matchup/teams/822bd0ba/4ba7cbea/Liverpool-vs-Bournemouth-History
-        b. Players' statistics from each team before the match started
+    3. To store raw single match data (as one .csv row) which includes players' pre-match statistics from each team before the match started
             Link Example: https://fbref.com/en/squads/822bd0ba/Liverpool-Stats
-        c. Link of the post-match informations
-            Link Example: https://fbref.com/en/matches/de515487/Liverpool-Bournemouth-August-27-2022-Premier-League
-        d. Post-match information
+                          https://fbref.com/en/squads/4ba7cbea/Bournemouth-Stats
+            
+    Post-match information is saved as .json file with the same name as its Table 3 counterparts (that saves the match' players' pre-match info).
+        Link Example: https://fbref.com/en/matches/de515487/Liverpool-Bournemouth-August-27-2022-Premier-League
     
     Initialization Steps:
-    1. Scrape the latest league fixtures data, save it as Table 1
-    2. Find the soon-to-be played matches from Table 1, save/insert them as Table 3
-    3. Insert into Table 3 the link of the match
-            + The general info of the match from Table 1 & players' pre-match statistics
+    1. Scrape the latest league fixtures data, this is Table 1. The retrieved data including:
+        - url of the match for detailed information
+        - general information of the match
+    2. Find the soon-to-be played matches from Table 1, then retrieve players' pre-match statistics right before the match. Save it into Table 3, a one row .csv.
+    3. Save Table 1 for future scrape reference. For future scraping this becomes Table 2.
     
     Update Steps
-    1. Scrape the latest league fixtures data
-    2. Compare it with Table 2 if exists
+    1. Scrape the latest league fixtures data. New (temporary) Table 1
+    2. Get stored league fixtures reference table (Table 2) then compare it
     
     3. If the difference between Table 1 and Table 2 exists, 
             then there is a new match data. Go to Step 4. Else Step 7.
-    4. Scrape the results of the matches saved in Table 3 and append the data 
-            into Table 3
-    5. Find the new soon-to-be played matches from Table 1, save/insert them as table 3
-    6. Replace the Table 2 with Table 1
+    4. Scrape the post-match information of the matches saved in Table 3 and then save the data as .json with similar filename
+    5. Find the new soon-to-be played matches from Table 1, then retrieve players' pre-match statistics right before the match. Save it into Table 3, a one row .csv.
+    6. Update table reference by saving Table 1 for future scrape reference. For future scraping this becomes Table 2.
     
     7. If the difference between Table 1 and Table 2 is not exist,
             then do nothing
@@ -72,12 +67,12 @@ def scrape_new_fixtures(league: str = "Premier-League") -> pd.DataFrame:
     """Get the new league fixtures information
     Parameters
     ----------
-    league_fixtures_url : string
-        The url of the league fixtures 
+    league : string
+        The league whose fixtures info gonna be scraped
     Returns
     ----------
     pd.DataFrame
-        pandas DataFrame for Table 1
+        pandas DataFrame for league fixtures reference table
     """
     league_fixtures_url = LEAGUE_LINK[league]
     
@@ -159,11 +154,15 @@ def get_pre_match_info(df_next_matches: pd.DataFrame, save_dir: str, league_code
     and the player's pre-match statistics.
     Parameters
     ----------
-    match_url : string
-        The head-to-head url of the match
     df_next_matches : pd.DataFrame
         Pandas DataFrame for next matches to be recorded not containing
         similar clubs in two different fixtures
+    save_dir : string
+        Directory to save the scrapped pre-match info
+    league_code : int
+        Code of the league whose fixtures info gonna be scraped
+    re_scrape : bool
+        Indicates whether doing a re-scraping for the already-scrapped match or not
     Returns
     ----------
     None
@@ -207,7 +206,7 @@ def get_post_match_data_as_dict(
     match_url: str="/en/matches/de515487/Liverpool-Bournemouth-August-27-2022-Premier-League",
     home: str="Liverpool",
     away: str="Bournemouth"
-) -> json:
+) -> dict:
     """For each newly appended matches in Table 3, append the 
     post-match information into it
     Parameters
@@ -220,9 +219,9 @@ def get_post_match_data_as_dict(
         The string indicating the away team
     Returns
     ----------
-    json
-        JSON data consisted of players that played on the match with their minutes 
-        and positions played
+    dict
+        Python dictionary data about post-match info consisted of players that played on the match 
+        with their minutes and positions played
     """
     df_ = pd.read_html("https://fbref.com" + match_url)
     desired_column = ["Player", "Pos", "Age", "Min"]
@@ -286,7 +285,8 @@ def collect(league="Serie-A"):
     """Collect the new raw data and then update the database
     Parameters
     ----------
-    None
+    league: str
+        Indicates the league to scrape
     Returns
     ----------
     str
