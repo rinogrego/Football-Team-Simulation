@@ -3,11 +3,20 @@
 This README section explains the things regarding end-to-end machine learning of this project from collecting the data to deploying the model and further things that can be implemented or improved.
 
 <!-- Insert Gambar ML Life Cycle -->
+<div align="center">
+  <h2>Tech Stack Used</h2>
+  <img src="docs\images\football-prediction-project-stacks.PNG" />
+</div>
 
 ## Project Goal
 
 - Predict football match result based on players capabilities
 - Enables user to measure the impact of a player on a match
+
+<div align="center">
+  <h2>Project Workflow</h2>
+  <img src="docs\images\football-prediction-project-workflow.PNG" />
+</div>
 
 ## Data Acquisition
 
@@ -26,7 +35,7 @@ The data is collected through web scraping. A script named `collect.py` to autom
 
 - How frequent the data is collected
 
-The `collect.py` scripts is run manually, so depends on how frequent the script is run. But preferrably the script should be run between two different gameweeks because the pre-match information of match at gameweek N, around the last time the script was run, may be populated with pre-match information of match at gameweek N+T, with T being around the time the script is run, which should be impossible because it means pre-match info at gameweek N is populated by future statistics.
+The `collect.py` script is run manually, so depends on how frequent the script is run. But preferrably the script should be run between two different gameweeks because the pre-match information of match at gameweek N, around the last time the script was run, may be populated with pre-match information of match at gameweek N+T, with T being around the time the script is run, which should be impossible because it means pre-match info at gameweek N is populated by future statistics.
 
 Like for example if at gameweek 21 I run the script and get pre-match info of gameweek 22, and then I run the script again at gameweek 24, the script will retrieve pre-match info of gameweek 25 for not only gameweek 25 but also for gameweek 23 and 24.
 
@@ -41,7 +50,9 @@ The data is stored in folder specialized for storage so that it can be switched 
 
 ## Data Cleaning
 
-- Handling some common things: missing values, skewed/outlier, duplicates, data types
+- Handling some common things: missing values, skewed/outlier, duplicates, data types.
+
+Ideally, I should handle all common dirty data things like missing value, skewness/outlier, duplicates, and data types, but for this project I just drop duplicates and replace missing value with 0 since missing value stat basically means the player never attempted/achieved the said stat. I ignored handling the outliers and the data types. If the code breaks later because of data types I will just handle it along the way.
 
 - Challenges
   - Consistent data shape and format. Treating the missing value (either as 0 or kept as NaN).
@@ -113,15 +124,180 @@ Like data transformation/feature engineering, the modelling task is done in goog
 
 ## Deployment
 
-The model is deployed by two ways: first is via django templating HTML for web interface, second is via API with djangorestframework.
+The model is deployed in two ways: first is via django templating HTML for web interface, second is via API with djangorestframework.
 
 ### Local Deployment
 
-Steps to local deployment
+Steps to local deployment (from the terminal)
+
+1. Create a new project folder and then go inside that folder.
+
+2. Clone this repository
+
+```
+  git clone https://github.com/rinogrego/Football-Team-Simulation && cd Football-Team-Simulation
+```
+
+3. Install python package to handle virtual environment.
+
+```
+  python -m venv VIRTUALENV_NAME
+```
+
+4. Setup virtual environment
+
+```
+  VIRTUALENV_NAME\\scripts\\activate
+```
+
+5. Install the necessary python packages for the project
+
+```
+  pip install -r requirements.txt
+```
+
+6. Run the django server
+
+```
+  python backend\\manage.py runserver
+```
+
+7. To view the server, go to any web browser and then go to the following url: 127.0.0.1:8000
 
 ### API Call
 
-API docs
+This section explains possible API calls that can be requested. With urls below, information available to be retrieved, respectively, are: past predictions made, players & their information available in the database, and the possible position used by the model
+
+```
+GET /api/view-predictions/
+GET /api/database/players/
+GET /api/database/positions/
+```
+
+You can make your own prediction by first retrieving available players and then use that information to build your custom line up and then send POST request to the following url to get the prediction.
+
+```
+POST /api/predict/
+```
+
+If you want to see how to access the API and how to structure the data to send as a POST request, open test_request_api.py. From your project directory, you can run the following python script from the terminal to see the example result which will be printed in the terminal (need to run the server first).
+
+```
+    python "backend/football_prediction/tests/test_request_api.py"
+```
+
+The script will send a POST request to the given URL:
+
+```
+POST /api/predict/
+``
+
+
+With the following json structure:
+
+```
+{
+    "home_player_01": "Alisson Becker",
+    "home_player_01_position": "GK",
+    "home_player_02": "Trent Alexander-Arnold",
+    "home_player_02_position": "RB",
+    "home_player_03": "Joe Gomez",
+    "home_player_03_position": "CB",
+    "home_player_04": "Joel Matip",
+    "home_player_04_position": "CB",
+    "home_player_05": "Andy Robertson",
+    "home_player_05_position": "LB",
+    "home_player_06": "Fabinho",
+    "home_player_06_position": "DM",
+    "home_player_07": "Stefan Bajcetic",
+    "home_player_07_position": "CM",
+    "home_player_08": "Naby Keita",
+    "home_player_08_position": "CM",
+    "home_player_09": "Darwin Nunez",
+    "home_player_09_position": "LW",
+    "home_player_10": "Mohamed Salah",
+    "home_player_10_position": "RW",
+    "home_player_11": "Cody Gakpo",
+    "home_player_11_position": "ST",
+    "away_player_01": "Alisson Becker",
+    "away_player_01_position": "GK",
+    "away_player_02": "Neco Williams",
+    "away_player_02_position": "RB",
+    "away_player_03": "Virgil van Dijk",
+    "away_player_03_position": "CB",
+    "away_player_04": "Konate",
+    "away_player_04_position": "CB",
+    "away_player_05": "Kostas Tsimikas",
+    "away_player_05_position": "LB",
+    "away_player_06": "Jordan Henderson",
+    "away_player_06_position": "DM",
+    "away_player_07": "James Milner",
+    "away_player_07_position": "CM",
+    "away_player_08": "Thiago",
+    "away_player_08_position": "CM",
+    "away_player_09": "Luis Diaz",
+    "away_player_09_position": "LW",
+    "away_player_10": "Roberto Firmino",
+    "away_player_10_position": "RW",
+    "away_player_11": "Diogo Jota",
+    "away_player_11_position": "ST"
+}
+```
+will give the response something like below back
+
+```
+{
+  'id': 74,
+  'datetime': '2023-04-17T11:35:08.840857Z',
+  'home_player_01': 'Alisson',
+  'home_player_01_position': 'GK',
+  'home_player_02': 'Trent Alexander-Arnold',
+  'home_player_02_position': 'RB',
+  'home_player_03': 'Andrew Robertson',
+  'home_player_03_position': 'LB',
+  'home_player_04': 'Virgil van Dijk',
+  'home_player_04_position': 'CB',
+  'home_player_05': 'Ibrahima Konaté',
+  'home_player_05_position': 'CB',
+  'home_player_06': 'Fabinho',
+  'home_player_06_position': 'DM',
+  'home_player_07': 'Thiago Alcántara',
+  'home_player_07_position': 'CM',
+  'home_player_08': 'Jordan Henderson',
+  'home_player_08_position': 'CM',
+  'home_player_09': 'Darwin Núñez',
+  'home_player_09_position': 'LW',
+  'home_player_10': 'Mohamed Salah',
+  'home_player_10_position': 'RW',
+  'home_player_11': 'Cody Gakpo',
+  'home_player_11_position': 'FW',
+  'away_player_01': 'Aaron Ramsdale',
+  'away_player_01_position': 'GK',
+  'away_player_02': 'Ben White',
+  'away_player_02_position': 'RB',
+  'away_player_03': 'Oleksandr Zinchenko',
+  'away_player_03_position': 'LB',
+  'away_player_04': 'Rob Holding',
+  'away_player_04_position': 'CB',
+  'away_player_05': 'Gabriel Dos Santos',
+  'away_player_05_position': 'CB',
+  'away_player_06': 'Thomas Partey',
+  'away_player_06_position': 'DM',
+  'away_player_07': 'Granit Xhaka',
+  'away_player_07_position': 'CM',
+  'away_player_08': 'Martin Ødegaard',
+  'away_player_08_position': 'CM',
+  'away_player_09': 'Martinelli',
+  'away_player_09_position': 'LW',
+  'away_player_10': 'Bukayo Saka',
+  'away_player_10_position': 'RW',
+  'away_player_11': 'Gabriel Jesus',
+  'away_player_11_position': 'FW',
+  'home_score_pred': 2.0121467113494873,
+  'away_score_pred': 0.8686701655387878,
+  'home_result_pred': 'W'
+}
+```
 
 ## Ideas for future works
 
