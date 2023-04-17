@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Prediction
 from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse
+from django.conf import settings
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -15,8 +16,12 @@ import json
 from .utils import create_instance, get_inference
 
 
-FEATURES_PATH = os.path.join("E:/Projects/2023/Football Team Simulation/", "models/baseline/baseline-feature.json")
-PLAYER_REFERENCES_PATH = os.path.join("E:/Projects/2023/Football Team Simulation/", "data/transformed/player_references.csv")
+# ABS_LOCAL_PATH = "E:/Projects/2023/Football Team Simulation/"
+# FEATURES_PATH = os.path.join(ABS_LOCAL_PATH, "models/baseline/baseline-feature.json")
+# PLAYER_REFERENCES_PATH = os.path.join(ABS_LOCAL_PATH, "data/transformed/player_references.csv")
+ML_PATH = os.path.join(settings.BASE_DIR, "ml_stuffs")
+FEATURES_PATH = os.path.join(ML_PATH, "models/baseline-feature.json")
+PLAYER_REFERENCES_PATH = os.path.join(ML_PATH, "data/player_references.csv")
 
 position_choices = json.load(open(FEATURES_PATH))["position_choices"]
 df = pd.read_csv(PLAYER_REFERENCES_PATH, index_col=0).groupby(["player"], as_index=False).sum()

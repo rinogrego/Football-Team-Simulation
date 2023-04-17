@@ -2,14 +2,20 @@ import pandas as pd
 import json
 import numpy as np
 import os
+from django.conf import settings
 
 from tensorflow import keras
 
-
-FEATURES_PATH = os.path.join("E:/Projects/2023/Football Team Simulation/", "models/baseline/baseline-feature.json")
-PLAYER_REFERENCES_PATH = os.path.join("E:/Projects/2023/Football Team Simulation/", "data/transformed/player_references.csv")
-MODEL_PATH = os.path.join("E:/Projects/2023/Football Team Simulation/", "models/baseline/baseline-model.h5")
+# ABS_LOCAL_PATH = "E:/Projects/2023/Football Team Simulation/"
+# FEATURES_PATH = os.path.join(ABS_LOCAL_PATH, "models/baseline/baseline-feature.json")
+# PLAYER_REFERENCES_PATH = os.path.join(ABS_LOCAL_PATH, "data/transformed/player_references.csv")
+# MODEL_PATH = os.path.join(ABS_LOCAL_PATH, "models/baseline/baseline-model.h5")
+ML_PATH = os.path.join(settings.BASE_DIR, "ml_stuffs")
+FEATURES_PATH = os.path.join(ML_PATH, "models/baseline-feature.json")
+PLAYER_REFERENCES_PATH = os.path.join(ML_PATH, "data/player_references.csv")
+MODEL_PATH = os.path.join(ML_PATH, "models/baseline-model.h5")
 model = keras.models.load_model(MODEL_PATH)
+print("model loaded")
 
 def create_instance(request_data):
     
