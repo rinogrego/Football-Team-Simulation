@@ -190,7 +190,7 @@ The script will send a POST request to the given URL:
 
 ```
 POST /api/predict/
-``
+```
 
 
 With the following json structure:
