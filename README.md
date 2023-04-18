@@ -4,6 +4,8 @@
 
 Web application for player-based football match result prediction. User can build custom teams and then try to predict the result of the match between those two teams. Basically, user can predict a result of football match given players with their positions for each team in a match.
 
+Deployment link: https://football-team-simulation-production.up.railway.app
+
 Can be used to:
 
 - Find out how a player played in a different position can affect the match result

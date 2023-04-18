@@ -10,7 +10,7 @@ from tensorflow import keras
 ML_PATH = os.path.join(settings.BASE_DIR, "ml_stuffs")
 FEATURES_PATH = os.path.join(ML_PATH, "models/baseline-feature.json")
 PLAYER_REFERENCES_PATH = os.path.join(ML_PATH, "data/player_references.csv")
-MODEL_PATH = os.path.join(ML_PATH, "models/baseline-model.h5")
+MODEL_PATH = os.path.join(ML_PATH, "models/40k-augmented-model.h5")
 
 
 model = keras.models.load_model(MODEL_PATH, compile=False)
