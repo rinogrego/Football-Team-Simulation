@@ -16,9 +16,6 @@ import json
 from .utils import create_instance, get_inference
 
 
-# ABS_LOCAL_PATH = "E:/Projects/2023/Football Team Simulation/"
-# FEATURES_PATH = os.path.join(ABS_LOCAL_PATH, "models/baseline/baseline-feature.json")
-# PLAYER_REFERENCES_PATH = os.path.join(ABS_LOCAL_PATH, "data/transformed/player_references.csv")
 ML_PATH = os.path.join(settings.BASE_DIR, "ml_stuffs")
 FEATURES_PATH = os.path.join(ML_PATH, "models/baseline-feature.json")
 PLAYER_REFERENCES_PATH = os.path.join(ML_PATH, "data/player_references.csv")
