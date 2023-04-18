@@ -80,6 +80,7 @@ Currently done via django templating. But plans to implement it with React.
   - Getting comfortable working with structured data using Tensorflow/Keras
 - Deployment
   - Learnt how to serve ML app with djangorestframework
+  - Learnt how to manage environment variables (kinda frustrating)
 - Overall
   - Conscious about how useful it is to differentiate directories/storages for data, features, and models
 
