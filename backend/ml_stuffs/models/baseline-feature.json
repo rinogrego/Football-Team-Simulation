@@ -1,0 +1,30 @@
+{
+    "register_features": [
+        "keeper - Performance - Save%",
+        "keeper - Performance - CS%",
+        "keeper_adv - Expected - PSxG/SoT",
+        "keeper_adv - Expected - /90",
+        "shooting - Standard - SoT%",
+        "shooting - Standard - SoT/90",
+        "shooting - Standard - G/SoT",
+        "shooting - Expected - G-xG",
+        "passing - xAG",
+        "passing - xA",
+        "passing - KP",
+        "gca - SCA - SCA90",
+        "gca - GCA - GCA90",
+        "defense - Tkl+Int",
+        "defense - Clr",
+        "defense - Blocks - Blocks",
+        "playing_time - Team Success - PPM",
+        "playing_time - Team Success (xG) - On-Off",
+        "misc - Performance - Recov",
+        "misc - Aerial Duels - Won%"
+    ],
+    "position_choices": [
+        "GK", 
+        "DF", "CB", "FB", "LB", "RB", "WB",
+        "MF", "DM", "CM", "LM", "RM", "WM", "AM",
+        "FW", "LW", "RW"
+    ]
+}
