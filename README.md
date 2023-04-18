@@ -94,3 +94,11 @@ Currently done via django templating. But plans to implement it with React.
   - backend: djangorestframework
   - frontend: React
 - Maintaining data science end-to-end pipeline
+
+
+- UNINSTALL -> INSTALL TF 2.10 (local) / OR TRY TF==2.9 FIRST
+- DO SOMETHING ABOUT DJANGO_SECRET_KEY and BASE_DIR (local/prod env, pindahin local abs path ke .env.local ato HAPUS)
+- RESOLVE DEPLOYMENT
+- BENERIN CV/RESUME
+- BENERIN LINKEDIN (open to work)
+- APPLY

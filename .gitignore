@@ -148,4 +148,4 @@ features
 docs
 models
 references
-requirements-test.txt
+requirements-test**

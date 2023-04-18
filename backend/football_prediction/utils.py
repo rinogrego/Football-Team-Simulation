@@ -14,8 +14,21 @@ ML_PATH = os.path.join(settings.BASE_DIR, "ml_stuffs")
 FEATURES_PATH = os.path.join(ML_PATH, "models/baseline-feature.json")
 PLAYER_REFERENCES_PATH = os.path.join(ML_PATH, "data/player_references.csv")
 MODEL_PATH = os.path.join(ML_PATH, "models/baseline-model.h5")
-model = keras.models.load_model(MODEL_PATH)
-print("model loaded")
+
+
+model = keras.models.load_model(MODEL_PATH, compile=False)
+losses = {
+	"score": "mean_absolute_error",
+	"home-result": "categorical_crossentropy",
+}
+metrics = {
+	"home-result": "accuracy",
+}
+model.compile(
+    optimizer="Adam",
+    loss=losses,
+    metrics=metrics,
+)
 
 def create_instance(request_data):
     

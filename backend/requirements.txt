@@ -19,7 +19,7 @@ flatbuffers==23.3.3
 fonttools==4.38.0
 gast==0.4.0
 google-auth==2.16.0
-google-auth-oauthlib==1.0.0
+google-auth-oauthlib==0.4.6
 google-pasta==0.2.0
 grpcio==1.51.1
 gunicorn==20.1.0
@@ -28,7 +28,7 @@ html5lib==1.1
 idna==3.4
 jax==0.4.8
 joblib==1.2.0
-keras==2.12.0
+keras==2.10.0
 Keras-Preprocessing==1.1.2
 kiwisolver==1.4.4
 libclang==15.0.6.1
@@ -43,7 +43,7 @@ opt-einsum==3.3.0
 packaging==23.0
 pandas==1.5.3
 Pillow==9.4.0
-protobuf==4.22.3
+protobuf==3.19.6
 pyarrow==11.0.0
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
@@ -61,14 +61,13 @@ scipy==1.10.0
 six==1.16.0
 soupsieve==2.3.2.post1
 sqlparse==0.4.3
-tensorboard==2.12.2
-tensorboard-data-server==0.7.0
+tensorboard==2.10.1
+tensorboard-data-server==0.6.1
 tensorboard-plugin-wit==1.8.1
-tensorflow==2.12.0
-tensorflow-cpu==2.11.0
-tensorflow-estimator==2.12.0
-tensorflow-intel==2.12.0
+tensorflow-cpu==2.10.0
+tensorflow-estimator==2.10.0
 tensorflow-io-gcs-filesystem==0.31.0
+tensorflow_intel==2.10.0
 termcolor==2.2.0
 threadpoolctl==3.1.0
 typing_extensions==4.4.0
