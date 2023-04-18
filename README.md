@@ -90,7 +90,7 @@ Currently done via django templating. But plans to implement it with React.
   - Need to shuffle player input positions so that the model can see that input location isn't correlated with player position
   - Normalizing the attributes used as inputs
   - Determining the 'properness' of the team's position composition
-  - Determining the 'properness' of the player's attributes and their position
+  - Determining the 'properness' of the player's attributes and with their position
 - Creating separate logic for backend and frontend
   - backend: djangorestframework
   - frontend: React
