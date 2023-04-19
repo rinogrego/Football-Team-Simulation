@@ -1,7 +1,8 @@
 import requests
 import pprint
 
-url = 'http://127.0.0.1:8000/api/predict/'
+# url = 'http://127.0.0.1:8000/api/predict/'
+url = 'https://football-team-simulation-production.up.railway.app/api/predict/'
 data = {
     "home_player_01": "Alisson",
     "home_player_01_position": "GK",
@@ -48,7 +49,7 @@ data = {
     "away_player_11": "Gabriel Jesus",
     "away_player_11_position": "FW",
 }
-print("sending POST request...")
+print("Sending POST request to", url)
 r = requests.post(url, json=data)
 print("POST request success")
 
