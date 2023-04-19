@@ -5,6 +5,6 @@ DEBUG = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3', # BASE_DIR will be inherited from base.py
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
