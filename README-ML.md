@@ -1,4 +1,4 @@
-# Machine Learning End-to-End Project
+# Machine Learning End-to-End Project - Football 11-vs-11 Team Simulation
 
 This README section explains the things regarding end-to-end machine learning of this project from collecting the data to deploying the model and further things that can be implemented or improved.
 
@@ -304,7 +304,7 @@ will give the response something like below back
   - React implementation
   - Formation form suggestion to auto-fill formations
   - Team separator in player selection form
-  - Frontend form validation
+  - Frontend form validation (no player picked more than once, GK should exist and only one)
 - Backend
   - Scheduled data acquisition
   - Access model specifications (model architecture, features used, etc.)
@@ -313,6 +313,7 @@ will give the response something like below back
   - Implement `collect.py` -> `transform.py` -> `increment_training.py` -> `push_model.py` with one code execution
   - Implement logging
   - Performance monitoring
+  - Give Role suitability score beside player position information in /predict (which also means create a DB model to record this)
 - App Feature
   - Login system
   - League simulation

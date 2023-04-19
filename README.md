@@ -1,4 +1,4 @@
-# Football 11-vs-11 Simulation
+# Football 11-vs-11 Team Simulation
 
 <!-- Implement badges: https://shields.io -->
 
