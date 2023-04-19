@@ -8,4 +8,3 @@ if DEPLOYMENT == "dev":
     
 elif DEPLOYMENT == "prod":
     from .prod import *
-    DEBUG = False
