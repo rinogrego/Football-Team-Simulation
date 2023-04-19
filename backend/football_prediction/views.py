@@ -29,7 +29,6 @@ def index(request):
     # ref: https://ilovedjango.com/django/authentication/allauth/allauth-django/
     # ref: https://stackoverflow.com/questions/13139543/django-allauth-accessing-socialaccount-set-all-from-within-a-view
         
-    print("Masuk Index")
     return render(request, "football_prediction/index.html", context={
         # "message": message
     })

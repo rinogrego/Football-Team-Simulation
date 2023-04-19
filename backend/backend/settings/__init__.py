@@ -8,3 +8,6 @@ if DEPLOYMENT == "dev":
     
 elif DEPLOYMENT == "prod":
     from .prod import *
+    
+# DEBUG = True because otherwise railway interal server error (500), but somehow API request via script (test_request_api.py) still works
+DEBUG = True
