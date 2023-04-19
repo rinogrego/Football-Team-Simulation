@@ -1,6 +1,6 @@
 import os
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1", "0.0.0.0", "football-team-simulation-production.up.railway.app"]
 
