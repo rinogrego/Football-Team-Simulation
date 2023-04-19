@@ -2,7 +2,7 @@ import os
 
 DEBUG = False
 
-ALLOWED_HOSTS = ["127.0.0.1", "0.0.0.0", "football-team-simulation-production.up.railway.app"]
+ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'football-team-simulation-production.up.railway.app', '.railway.app']
 
 DATABASES = {
     'default': {
