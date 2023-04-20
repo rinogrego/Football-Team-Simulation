@@ -11,6 +11,16 @@ Can be used to:
 - Find out how a player played in a different position can affect the match result
 - Find out the impact of only 1 different player from starting line-up can affect the match result
 
+<div align="center">
+  <h2>Index</h2>
+  <img src="docs\images\football-prediction-home-page.PNG" />
+</div>
+
+<div align="center">
+  <h2>Prediction Result</h2>
+  <img src="docs\images\football-prediction-prediction-page.PNG" />
+</div>
+
 ## Motivation
 
 1. I like the idea
