@@ -22,8 +22,10 @@
     </div>
 
     <div class="container p-5" id="show-prediction">
-        <div class="row mb-3" id="display-result">
-            <h3 style="text-align: center;">Home Team &nbsp; ({{ home_score_pred | floatformat:2 }}) &nbsp; - &nbsp; ({{ away_score_pred | floatformat:2 }}) &nbsp; Away Team</h3>
+        <div class="row mb-3" id="display-result" style="text-align: center;">
+            <h3>Home Team &nbsp; ({{ home_score_pred | floatformat:2 }}) &nbsp; - &nbsp; ({{ away_score_pred | floatformat:2 }}) &nbsp; Away Team</h3>
+            <br><br>
+            <p class="text-danger">The model used is <strong>far</strong> from good</p>
         </div>
         <div class="row" id="team-composition">
             <div class="col-6">
