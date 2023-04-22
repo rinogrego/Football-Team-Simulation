@@ -81,7 +81,7 @@ def predict(request):
     if serializer.is_valid():
         instance, players_not_found = create_instance(request.data)
         if len(players_not_found) > 0:
-            return JsonResponse({
+            return Response({
                 "message": "the following players you asked were not found in the database if you used the player list from the server then the error came from our part",
                 "players_not_found": players_not_found
             })
@@ -94,7 +94,7 @@ def predict(request):
             home_result_pred = home_result
         )
     else:
-        return JsonResponse({
+        return Response({
             "message": "djangorestframework serializer not valid. your input is probably missing."
         })
     
