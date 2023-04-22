@@ -2,6 +2,7 @@ import pandas as pd
 import json
 import numpy as np
 import os
+import joblib
 from django.conf import settings
 
 from tensorflow import keras
@@ -10,9 +11,10 @@ from tensorflow import keras
 ML_PATH = os.path.join(settings.BASE_DIR, "ml_stuffs")
 FEATURES_PATH = os.path.join(ML_PATH, "models/baseline-feature.json")
 PLAYER_REFERENCES_PATH = os.path.join(ML_PATH, "data/player_references.csv")
-MODEL_PATH = os.path.join(ML_PATH, "models/40k-augmented-model.h5")
+PREPROCESSING_PATH = os.path.join(ML_PATH, 'models/minmax-preprocessing.pkl')
+MODEL_PATH = os.path.join(ML_PATH, "models/minmax-augmented-baseline-model.h5")
 
-
+minmax_pipeline = joblib.load(PREPROCESSING_PATH)
 model = keras.models.load_model(MODEL_PATH, compile=False)
 losses = {
 	"score": "mean_absolute_error",
@@ -89,10 +91,13 @@ def create_instance(request_data):
                 instance[key] = np.array([value], dtype="object")
             else:
                 # value here indicates player name
-                instance[key] = player_ref.query("player == @value")[attributes_list].fillna(0).to_numpy()
-                if instance[key].shape[0] == 0:
+                player_query = player_ref.query("player == @value")[attributes_list].fillna(0)
+                if player_query.shape[0] == 0:
                     # print("ERROR --- No player", value, "in the database.")
                     players_not_found.append(value)
+                    continue
+                instance[key] = minmax_pipeline.transform(player_query, inference=True)
+                instance[key] = instance[key].to_numpy()
             
     return instance, players_not_found
 

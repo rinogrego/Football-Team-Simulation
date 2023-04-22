@@ -1,8 +1,8 @@
 import requests
 import pprint
 
-# url = 'http://127.0.0.1:8000/api/predict/'
-url = 'https://football-team-simulation-production.up.railway.app/api/predict/'
+url = 'http://127.0.0.1:8000/api/predict/'
+# url = 'https://football-team-simulation-production.up.railway.app/api/predict/'
 data = {
     "home_player_01": "Alisson",
     "home_player_01_position": "GK",
