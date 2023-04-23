@@ -19,8 +19,6 @@ def main():
 
 
 if __name__ == '__main__':
-    from ml_stuffs.models.preprocessing_pipeline import Pipeline
-    import __main__
-    __main__.Pipeline = Pipeline
+    # from ml_stuffs.models.preprocessing_pipeline import Pipeline
     
     main()

@@ -7,6 +7,10 @@ from django.conf import settings
 
 from tensorflow import keras
 
+import __main__
+from ml_stuffs.models.preprocessing_pipeline import Pipeline
+__main__.Pipeline = Pipeline
+
 
 ML_PATH = os.path.join(settings.BASE_DIR, "ml_stuffs")
 FEATURES_PATH = os.path.join(ML_PATH, "models/baseline-feature.json")
