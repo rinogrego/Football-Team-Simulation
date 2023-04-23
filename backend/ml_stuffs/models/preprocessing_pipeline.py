@@ -31,7 +31,3 @@ class Pipeline:
                 values = X_transform.loc[:, pd.IndexSlice[attribute]].values.reshape(-1, 1)
                 X_transform.loc[:, pd.IndexSlice[attribute]] = self.MinMaxScaler_per_attribute[attribute].transform(values)
         return X_transform
-
-
-import __main__
-__main__.Pipeline = Pipeline

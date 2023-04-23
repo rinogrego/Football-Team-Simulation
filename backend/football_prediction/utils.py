@@ -7,6 +7,7 @@ from django.conf import settings
 
 from tensorflow import keras
 
+# little hack from https://stackoverflow.com/a/64056687/13283654, https://stackoverflow.com/a/74236753/13283654
 import __main__
 from ml_stuffs.models.preprocessing_pipeline import Pipeline
 __main__.Pipeline = Pipeline
