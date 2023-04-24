@@ -18,20 +18,16 @@ from .utils import create_instance, get_inference
 
 ML_PATH = os.path.join(settings.BASE_DIR, "ml_stuffs")
 FEATURES_PATH = os.path.join(ML_PATH, "models/baseline-feature.json")
+FORMATION_REFERENCES_PATH = os.path.join(ML_PATH, "data/formations.json")
 PLAYER_REFERENCES_PATH = os.path.join(ML_PATH, "data/player_references.csv")
 
 position_choices = json.load(open(FEATURES_PATH))["position_choices"]
+formation_choices = json.load(open(FORMATION_REFERENCES_PATH))["formations"]
 df = pd.read_csv(PLAYER_REFERENCES_PATH, index_col=0).groupby(["player"], as_index=False).sum()
 
 
 def index(request):
-    # ref: https://stackoverflow.com/questions/62764900/check-if-the-user-has-logged-in-with-social-account-django
-    # ref: https://ilovedjango.com/django/authentication/allauth/allauth-django/
-    # ref: https://stackoverflow.com/questions/13139543/django-allauth-accessing-socialaccount-set-all-from-within-a-view
-        
-    return render(request, "football_prediction/index.html", context={
-        # "message": message
-    })
+    return render(request, "football_prediction/index.html")
 
 
 @api_view(["POST"])
@@ -72,11 +68,7 @@ def show_prediction(request):
 
 @api_view(["POST"])
 def predict(request):
-    # ref: https://www.django-rest-framework.org/api-guide/serializers/
-    # ref: https://stackoverflow.com/questions/38909652/using-curl-and-django-rest-framework-in-terminal
-    # ref: https://devqa.io/curl-sending-api-requests/
-    
-    
+
     serializer = PredictionSerializer(data=request.data)
     if serializer.is_valid():
         instance, players_not_found = create_instance(request.data)
@@ -115,5 +107,44 @@ def get_available_players(request):
 
 
 @api_view(["GET"])
+def get_available_players_by_team(request):
+    teams = {
+        "Liverpool": {
+            "player-01": "Alisson",
+            "player-02": "Trent Alexander-Arnold",
+            "player-03": "Andrew Robertson",
+            "player-04": "Virgil van Dijk",
+            "player-05": "Ibrahima Konaté",
+            "player-06": "Fabinho",
+            "player-07": "Thiago Alcántara",
+            "player-08": "Jordan Henderson",
+            "player-09": "Darwin Núñez",
+            "player-10": "Mohamed Salah",
+            "player-11": "Cody Gakpo",
+        },
+        "Arsenal": {
+            "player-01": "Aaron Ramsdale",
+            "player-02": "Ben White",
+            "player-03": "Oleksandr Zinchenko",
+            "player-04": "Rob Holding",
+            "player-05": "Gabriel Dos Santos",
+            "player-06": "Thomas Partey",
+            "player-07": "Granit Xhaka",
+            "player-08": "Martin Ødegaard",
+            "player-09": "Martinelli",
+            "player-10": "Bukayo Saka",
+            "player-11": "Gabriel Jesus",
+        },
+    }
+    return JsonResponse(teams, safe=False)
+    
+    
+@api_view(["GET"])
 def get_available_positions(request):
     return JsonResponse(position_choices, safe=False)
+
+
+@api_view(["GET"])
+def get_available_positions_by_formation(request):
+    formations = {}
+    return JsonResponse(formations, safe=False)
