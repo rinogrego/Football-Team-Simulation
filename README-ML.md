@@ -314,14 +314,20 @@ will give the response something like below back
   - Implement logging
   - Performance monitoring
   - Give Role suitability score beside player position information in /predict (which also means create a DB model to record this)
+    - Try simple model for baseline that considers stats and usual position of the player. Range from 0-1.
 - App Feature
   - Login system
   - League simulation
+- Dashboard for Monitoring & Analysis
+  - Which team is the most popular
+  - Which player is the most popular or Top N popular players
+  - Which ML Model is the best
+  - Track Error (?)
 - Overengineering the entire thing
   - pandas -> polars
   - tfx
   - React
-  - Custom monitoring
+  - Custom monitoring / Third-party monitoring (resources, latency, I/O, etc.)
   - Test cases
   - GitHub actions for CI/CD
   - Docker, kubernetes
