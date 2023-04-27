@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(response => response.json())
     .then(data => {
         localStorage.setItem("availablePlayers", JSON.stringify(data))
-        console.log("API call available players success");
     })
 
     // fetch available players based on chosen team
@@ -17,7 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(response => response.json())
     .then(data => {
         localStorage.setItem("availablePlayersByTeam", JSON.stringify(data))
-        console.log("API call available players by team success");
     })
     
     // fetch available positions
@@ -26,7 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(response => response.json())
     .then(data => {
         localStorage.setItem("availablePositions", JSON.stringify(data));
-        console.log("API call available positions success");
     })
   
     // fetch available positions by formations
@@ -35,7 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(response => response.json())
     .then(data => {
         localStorage.setItem("availablePositionsByFormation", JSON.stringify(data));
-        console.log("API call available positions by formation success");
     })
   
 })
@@ -101,7 +97,6 @@ function generatePositionSelection(id){
 
 function generatePlayersByTeam(id){
     const select_tag = document.querySelector(`#${id}`);
-    console.log("call generatePlayersByTeam")
 
     // to prevent repeated creation of displayTeamOptions
     var current_options = select_tag.children;
@@ -132,12 +127,10 @@ function generatePlayersByTeam(id){
 function displayPlayersByTeam(teamname, team) {
     const team_database = JSON.parse(localStorage.getItem("availablePlayersByTeam"));
     const players = team_database[teamname];
-    console.log("call displayPlayersByTeam")
 
     // load players by choosen team
     Object.keys(players).forEach(player => {
         var id = `${team}-${player}`;
-        console.log(players[player])
         document.getElementById(id).innerHTML = `
         <option value="${players[player]}">${players[player]}</option>
         `;
