@@ -28,8 +28,24 @@
             {% csrf_token %} 
             <div class="row" id="inputs">
                 <div class="col-sm-6">
-                    <div class="container" id="home-team">
+                    <div class="container" id="home">
                         <h3>Home Team</h3>
+                        <div class="row">
+                            <div class="col-8">
+                                <select class="form-select mt-1" id="home-team" name="home_team" onclick="generatePlayersByTeam(this.id)"
+                                onchange="displayPlayersByTeam(this.value, 'home')">
+                                    <option selected disabled>Choose Team</option>
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <select class="form-select mt-1" id="home-formation" name="home_formation" onclick="generatePositionsByFormation(this.id)"
+                                onchange="displayPositionsByFormation(this.value, 'home')">
+                                    <option value="" selected disabled>Formation</option>
+                                </select>
+                            </div>
+                        </div>
+                        <hr>
+                        
                         <div class="row">
                             <div class="col-8">
                                 <select class="form-select mt-1" id="home-player-01" name="home_player_01" onclick="generatePlayerSelection(this.id)">
@@ -175,8 +191,24 @@
                 </div>
                 
                 <div class="col-sm-6 pt-3 pt-sm-0">
-                    <div class="container" id="away-team">
+                    <div class="container" id="away">
                         <h3>Away Team</h3>
+                        <div class="row">
+                            <div class="col-8">
+                                <select class="form-select mt-1" id="away-team" name="away_team" onclick="generatePlayersByTeam(this.id)"
+                                onchange="displayPlayersByTeam(this.value, 'away')">
+                                    <option selected disabled>Choose Team</option>
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <select class="form-select mt-1" id="away-formation" name="away_formation" onclick="generatePositionsByFormation(this.id)"
+                                onchange="displayPositionsByFormation(this.value, 'away')">
+                                    <option value="" selected disabled>Formation</option>
+                                </select>
+                            </div>
+                        </div>
+                        <hr>
+
                         <div class="row">
                             <div class="col-8">
                                 <select class="form-select mt-1" id="away-player-01" name="away_player_01" onclick="generatePlayerSelection(this.id)">

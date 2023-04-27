@@ -1,0 +1,69 @@
+{
+    "formations": {
+        "4-2-3-1": {
+            "player-01": "GK",
+            "player-02": "RB",
+            "player-03": "CB",
+            "player-04": "CB",
+            "player-05": "LB",
+            "player-06": "CM",
+            "player-07": "CM",
+            "player-08": "RM",
+            "player-09": "AM",
+            "player-10": "LM",
+            "player-11": "FW"
+        },
+        "4-1-2-3": {
+            "player-01": "GK",
+            "player-02": "RB",
+            "player-03": "CB",
+            "player-04": "CB",
+            "player-05": "LB",
+            "player-06": "DM",
+            "player-07": "CM",
+            "player-08": "CM",
+            "player-09": "RW",
+            "player-10": "LW",
+            "player-11": "FW"
+        },
+        "4-4-2": {
+            "player-01": "GK",
+            "player-02": "RB",
+            "player-03": "CB",
+            "player-04": "CB",
+            "player-05": "LB",
+            "player-06": "RM",
+            "player-07": "CM",
+            "player-08": "CM",
+            "player-09": "LM",
+            "player-10": "FW",
+            "player-11": "FW"
+        },
+        "3-5-2": {
+            "player-01": "GK",
+            "player-02": "CB",
+            "player-03": "CB",
+            "player-04": "CB",
+            "player-05": "WB",
+            "player-06": "WB",
+            "player-07": "CM",
+            "player-08": "CM",
+            "player-09": "CM",
+            "player-10": "FW",
+            "player-11": "FW"
+        },
+        "4-1-4-1": {
+            "player-01": "GK",
+            "player-02": "RB",
+            "player-03": "CB",
+            "player-04": "CB",
+            "player-05": "LB",
+            "player-06": "DM",
+            "player-07": "RM",
+            "player-08": "CM",
+            "player-09": "CM",
+            "player-10": "LM",
+            "player-11": "FW"
+        }
+    }
+}
