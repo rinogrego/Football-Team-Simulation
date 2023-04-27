@@ -101,6 +101,7 @@ function generatePositionSelection(id){
 
 function generatePlayersByTeam(id){
     const select_tag = document.querySelector(`#${id}`);
+    console.log("call generatePlayersByTeam")
 
     // to prevent repeated creation of displayTeamOptions
     var current_options = select_tag.children;
@@ -131,13 +132,14 @@ function generatePlayersByTeam(id){
 function displayPlayersByTeam(teamname, team) {
     const team_database = JSON.parse(localStorage.getItem("availablePlayersByTeam"));
     const players = team_database[teamname];
+    console.log("call displayPlayersByTeam")
 
     // load players by choosen team
     Object.keys(players).forEach(player => {
         var id = `${team}-${player}`;
-
+        console.log(players[player])
         document.getElementById(id).innerHTML = `
-        <option value=${players[player]}> ${players[player]} </option>
+        <option value="${players[player]}">${players[player]}</option>
         `;
     })
     
@@ -184,7 +186,7 @@ function displayPositionsByFormation(formation, team) {
         // the current pos in the looping, then add 'selected' inside the option tag
 
         document.getElementById(id).innerHTML = `
-        <option value=${positions[player]}> ${positions[player]} </option>
+        <option value="${positions[player]}">${positions[player]}</option>
         `;
     })
     

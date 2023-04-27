@@ -19,11 +19,13 @@ from .utils import create_instance, get_inference
 ML_PATH = os.path.join(settings.BASE_DIR, "ml_stuffs")
 FEATURES_PATH = os.path.join(ML_PATH, "models/baseline-feature.json")
 FORMATION_REFERENCES_PATH = os.path.join(ML_PATH, "data/formations.json")
+TEAM_REFERENCES_PATH = os.path.join(ML_PATH, "data/teams.json")
 PLAYER_REFERENCES_PATH = os.path.join(ML_PATH, "data/player_references.csv")
 
-position_choices = json.load(open(FEATURES_PATH))["position_choices"]
-formation_choices = json.load(open(FORMATION_REFERENCES_PATH))["formations"]
 df = pd.read_csv(PLAYER_REFERENCES_PATH, index_col=0).groupby(["player"], as_index=False).sum()
+team_choices = json.load(open(TEAM_REFERENCES_PATH, mode='rb'))["teams"]
+position_choices = json.load(open(FEATURES_PATH, mode='rb'))["position_choices"]
+formation_choices = json.load(open(FORMATION_REFERENCES_PATH, mode='rb'))["formations"]
 
 
 def index(request):
@@ -34,6 +36,7 @@ def index(request):
 def show_prediction(request):
     
     serializer = PredictionSerializer(data=request.data)
+    print(request.data)
     if serializer.is_valid():
         instance, players_not_found = create_instance(request.data)
         if len(players_not_found) > 0:
@@ -108,35 +111,8 @@ def get_available_players(request):
 
 @api_view(["GET"])
 def get_available_players_by_team(request):
-    teams = {
-        "Liverpool": {
-            "player-01": "Alisson",
-            "player-02": "Trent Alexander-Arnold",
-            "player-03": "Andrew Robertson",
-            "player-04": "Virgil van Dijk",
-            "player-05": "Ibrahima Konaté",
-            "player-06": "Fabinho",
-            "player-07": "Thiago Alcántara",
-            "player-08": "Jordan Henderson",
-            "player-09": "Darwin Núñez",
-            "player-10": "Mohamed Salah",
-            "player-11": "Cody Gakpo",
-        },
-        "Arsenal": {
-            "player-01": "Aaron Ramsdale",
-            "player-02": "Ben White",
-            "player-03": "Oleksandr Zinchenko",
-            "player-04": "Rob Holding",
-            "player-05": "Gabriel Dos Santos",
-            "player-06": "Thomas Partey",
-            "player-07": "Granit Xhaka",
-            "player-08": "Martin Ødegaard",
-            "player-09": "Martinelli",
-            "player-10": "Bukayo Saka",
-            "player-11": "Gabriel Jesus",
-        },
-    }
-    return JsonResponse(teams, safe=False)
+    # Error : (Caglar Soyuncu, Leicester)
+    return JsonResponse(team_choices, safe=False)
     
     
 @api_view(["GET"])
@@ -146,5 +122,4 @@ def get_available_positions(request):
 
 @api_view(["GET"])
 def get_available_positions_by_formation(request):
-    formations = {}
-    return JsonResponse(formations, safe=False)
+    return JsonResponse(formation_choices, safe=False)
