@@ -35,7 +35,7 @@ Can be used to:
 
 **I am well aware** that this sh\*t can be turned into gambling tool but f\*ck it. I did this for fun and to hone my skills and because I like this project idea. I think the engineering challenge is good for me to try, too.
 
-If you want to know the end-to-end machine learning details of the project then go check out [here](!https://github.com/rinogrego/Football-Team-Simulation/blob/main/README-ML.md).
+If you want to know the end-to-end machine learning details of the project then go check out [here](https://github.com/rinogrego/Football-Team-Simulation/blob/main/README-ML.md).
 
 ## Limitations
 

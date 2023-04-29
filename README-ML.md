@@ -302,6 +302,8 @@ will give the response something like below back
 
 ## Ideas for future works
 
+I dumped all of my ideas for the future so that I don't forget it here.
+
 - Frontend
   - React implementation
   - Team separator/info in player selection form
