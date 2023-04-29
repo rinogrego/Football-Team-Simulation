@@ -67,6 +67,8 @@ Data transformation and feature engineering is done in notebook environment. The
 
 To handle the lack of data I did try to increase the number of data points by augmentation. I think the data is kinda unstructured in that while the information of players' attribute is structured, the order of the player input can be rearranged (like putting goalkeeper in as the first player or the fifth player in the input row since ideally, we want the model to NOT be affected by that positioning)
 
+I scaled the data using sklearn's MinMaxScaler fitted on the train set (which consists of 80% of the entire dataset, with the rest for test set) and then transformed both train and test sets before fitting the data to the model. The fitted MinMaxScaler will also be used in inference pipeline.
+
 <!-- Insert ilustrasi feature engineering: augmentation by randomly shuffle players -->
 
 - Numerical variables
@@ -123,7 +125,7 @@ Like data transformation/feature engineering, the modelling task is done in goog
 
 ## Deployment
 
-The model is deployed in two ways: first is via django templating HTML for web interface, second is via API with djangorestframework.
+The model is deployed in two ways: first is via django templating HTML for web interface, second is via API with djangorestframework. Some problems that I encounter when I try to deploy the model onto railway were: environment & PATH settings, django staticfiles, and how to use pickled custom Python classes (I feel like I need to point out this one niche problem since I considered to hack the problem by creating a new dataframe/data files to contain stats of the attributes and then create utility function for transformation during training/inference)
 
 ### Local Deployment
 
@@ -302,8 +304,7 @@ will give the response something like below back
 
 - Frontend
   - React implementation
-  - Formation form suggestion to auto-fill formations
-  - Team separator in player selection form
+  - Team separator/info in player selection form
   - Frontend form validation (no player picked more than once, GK should exist and only one)
 - Backend
   - Scheduled data acquisition
@@ -311,10 +312,15 @@ will give the response something like below back
   - Add model version used in Prediction table to django model DB
   - Implement model experiment tracking
   - Implement `collect.py` -> `transform.py` -> `increment_training.py` -> `push_model.py` with one code execution
-  - Implement logging
-  - Performance monitoring
+  - Implement logging (for `collect.py` first)
+  - Model performance monitoring
   - Give Role suitability score beside player position information in /predict (which also means create a DB model to record this)
     - Try simple model for baseline that considers stats and usual position of the player. Range from 0-1.
+      - Binary Classification model, given attributes as an input, figure out the position.
+      - Create negative samples by randomly change position like FW to GK like Next-Sentence Prediction
+  - A/B test implementation for ML model
+  - New Page
+    - For finding similar players based on criteria (selected attributes, position played, etc.)
 - App Feature
   - Login system
   - League simulation

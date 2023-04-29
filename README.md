@@ -33,14 +33,17 @@ Can be used to:
 
 **I am well aware** that a football match have too many variables that can impact its result but I think the challenge of scratching the surface of that problem is fun.
 
-**I am well aware** that this sh\*t can be turned into gambling tool but f\*ck it. I did this for fun and to hone my skills. I think the engineering challenge is good for me to try.
+**I am well aware** that this sh\*t can be turned into gambling tool but f\*ck it. I did this for fun and to hone my skills and because I like this project idea. I think the engineering challenge is good for me to try, too.
+
+If you want to know the end-to-end machine learning details of the project then go check out [here](!https://github.com/rinogrego/Football-Team-Simulation/blob/main/README-ML.md).
 
 ## Limitations
 
 - Biased towards home team
+- Match data of top 5 leagues from fbref
 - Not many attribute features were considered during model development
 - The model was trained on dataset scrapped from five different leagues, but the league information isn't used when training the model. A good assumption to remember
-- **NEED SOOO MANY** data points to make a good model to the point that I think I will never be able to make a good model
+- **NEED SOOO MANY** data points to make a good model to the point that I think I will never be able to make a good model, lol. Random guessing might be better
 
 ## Stack Used
 
@@ -90,9 +93,11 @@ Currently done via django templating. But plans to implement it with React.
 - Modeling
   - Getting more proficient in Tensorflow/Keras. Learnt how to implement complex architecture with Keras
   - Getting comfortable working with structured data using Tensorflow/Keras
+  - Combining pipeline of Scikit-learn's MinMaxScaler and Keras model for training and inference.
 - Deployment
   - Learnt how to serve ML app with djangorestframework
   - Learnt how to manage environment variables (kinda frustrating)
+  - Learnt how to deploy django project in different environment (local and prod) separated by their own settings.py
 - Overall
   - Conscious about how useful it is to differentiate directories/storages for data, features, and models
 
@@ -103,7 +108,7 @@ Currently done via django templating. But plans to implement it with React.
   - Normalizing the attributes used as inputs
   - Determining the 'properness' of the team's position composition
   - Determining the 'properness' of the player's attributes and with their position
-- Creating separate logic for backend and frontend
-  - backend: djangorestframework
-  - frontend: React
+- Creating separate works for not only backend and frontend but for data science end-to-end project cycle
+  - Separate the backend task into 3 different tasks: data acquisition, data transformation & modelling, and backend deployment
+  - Frontend stuff is implemented with Django HTML templating with future React implementation in mind.
 - Maintaining data science end-to-end pipeline
